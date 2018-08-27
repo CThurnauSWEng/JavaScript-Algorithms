@@ -1,0 +1,68 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>
+
+function longestPalindrome(input_str){
+    var longestPal = "";
+    var possiblyLongestPal = "";
+    var test_str = ""
+    // remove spaces
+    for (var i = 0; i < input_str.length; i++){
+        if (input_str[i] != " "){
+            test_str += input_str[i].toLowerCase();
+        }
+    }
+    for (var leftIdx = 0; leftIdx < test_str.length; leftIdx++){
+        if (test_str[leftIdx] == " "){
+            continue;
+        }
+        for (var rightIdx = (test_str.length-1); rightIdx > 0; rightIdx--){
+            var offset = (test_str.length -1) - rightIdx
+            if (test_str[rightIdx] == " "){
+                continue;
+            }
+            if (test_str[leftIdx+offset]==test_str[rightIdx]){
+                // build and print a test substring
+                var temp = ""
+                for (var i = leftIdx+offset; i <= rightIdx; i++){
+                    temp += test_str[i]
+                }
+                var isPal = true;
+                var r = temp.length-1;
+                for (var l = 0; l < temp.length/2; l++){
+                    if (temp[l] != temp[r]){
+                        isPal = false;
+                        break;
+                    }
+                    r--;
+                }
+                if (isPal){
+                    if (temp.length > longestPal.length){
+                        longestPal = temp
+                    }
+                }
+            }
+        }
+    }
+    return longestPal;
+}
+
+// test it
+console.log ("Input: race car");
+console.log ("  =>  Longest Palindrome: ", longestPalindrome("race car"));
+console.log ("Input: Racecar A man a plan a canal Panama doggie Hannah");
+console.log ("  =>  Longest Palindrome: ", longestPalindrome("Racecar A man a plan a canal Panama Hannah"));
+console.log ("Input: hannah has a racecar");
+console.log ("  =>  Longest Palindrome: ", longestPalindrome("hannah has a racecar"));
+console.log ("Input: tacocat is a !racecar! driver")
+console.log ("  =>  Longest Palindrome: ", longestPalindrome("tacocat is a !racecar! driver"));
+
+</script>
+<title>Longest Palindrome</title>
+</head>
+<body>
+<p>See console for output</p>
+</body>
+</html>

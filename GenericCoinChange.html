@@ -1,0 +1,69 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>
+        function getNextMax(legend, amt){
+            
+            max_key_value = 0;
+            for (var key in legend){
+                if (legend[key] > max_key_value){
+                    // found biggest so far
+                    if (amt > legend[key]) {
+                        max_key_value = legend[key];
+                        max_key = key
+                    }
+                }
+            }
+            coin = {'coin_type': max_key,
+                    'coin_val' : max_key_value}
+            return coin;
+        }
+
+        function genericCoinChange(legend, amt){
+            var result = {}
+
+            for (var key in legend){
+                result[key] = 0
+            }
+
+            while (amt > 0){
+                coin = getNextMax(legend, amt);
+                num_coins = Math.floor(amt / coin.coin_val)
+                amt = Math.floor(amt % (num_coins*coin.coin_val));
+                result[coin.coin_type] = num_coins;
+            }
+            return result;
+        }
+
+        legend = {
+            'dime'          : 10,
+            'quarter'       : 25,
+            'penny'         : 1,
+            'half-dollar'   : 50
+        }
+        amt = 283
+        console.log("amt: ", amt, " legend: ", legend);
+        result = genericCoinChange(legend,amt)
+        console.log("result: ", result);
+
+        legend = {
+            'dime'          : 10,
+            'quarter'       : 25,
+            'penny'         : 1,
+        }
+        amt = 283
+        console.log("amt: ", amt, " legend: ", legend);
+        result = genericCoinChange(legend,amt)
+        console.log("result: ", result);
+
+
+
+
+    </script>
+    <title>Generic Coin Change</title>
+  </head>
+  <body>
+    <p>See console for output</p>
+ </body>
+</html>

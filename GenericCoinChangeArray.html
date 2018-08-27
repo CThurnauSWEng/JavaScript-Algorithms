@@ -1,0 +1,70 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>
+
+function sort(legend){
+    var arr = [];
+    for (var x in legend){
+        arr.push(x);
+    }
+    for (var i = 0; i< arr.length; i++){  //maybe len-1?
+        for (var x = 0; x < arr.length -1; x++){
+            if (legend[arr[x]] < legend[arr[x+1]]){
+                var temp = arr[x];
+                arr[x] = arr[x+1];
+                arr[x+1] = temp;
+            }
+        }
+    }
+    return arr;
+}
+
+function genericCoinChangeArray(legend,amt){
+    var change = {}
+    var arr = sort(legend)
+    for (var key in arr){
+        if (amt > legend[arr[key]]){
+            var num = Math.floor(amt/legend[arr[key]]);
+            amt = amt % (num*legend[arr[key]]);
+            change[arr[key]] = num;
+        }
+        else {
+            change[arr[key]] = 0;
+        }
+    }
+    return change;
+}
+
+legend = {
+            'dime'          : 10,
+            'quarter'       : 25,
+            'penny'         : 1,
+            'half-dollar'   : 50
+        }
+        amt = 283
+        console.log("amt: ", amt, " legend: ", legend);
+        result = genericCoinChangeArray(legend,amt)
+        console.log("result: ", result);
+
+        legend = {
+            'dime'          : 10,
+            'quarter'       : 25,
+            'penny'         : 1,
+        }
+        amt = 42
+        console.log("amt: ", amt, " legend: ", legend);
+        result = genericCoinChangeArray(legend,amt)
+        console.log("result: ", result);
+
+
+
+
+</script>
+<title>Generic Coin Change</title>
+</head>
+<body>
+<p>See console for output</p>
+</body>
+</html>

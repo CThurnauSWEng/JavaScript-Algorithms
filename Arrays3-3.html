@@ -1,0 +1,357 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Fundamentals 3-3</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          console.log("Algorithms:  Coding Dojo book p. 42");
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Remove Negatives - return the same array")
+
+          function removeNegatives(arr){
+            var skipped = 0;
+            var newIdx = 0;
+            for (var i = 0; i < arr.length; i++){
+              if (arr[i] < 0){
+                skipped++;
+              } else {        //keep it
+                arr[newIdx] = arr[i];
+                newIdx++;
+              }
+            }
+            arr.length = newIdx;
+          }
+          
+          // test it
+          bigArr = [
+            [1,6,-3,4,-5,6,7,8],
+            [-9,2,3,-4,5,6,7,8],
+            [1,2,3,-4,5,6,9,-8],
+            [-1,2,-9,4,5,6,7,-8],
+            [1,2,3,4,5,6,7,8],
+            [-1,-1,-1,-7,-3],
+            [-3,3],
+            [0,-4],
+            [-1],
+            [1],
+            []
+            ];
+ 
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: arr: ",bigArr[i]);
+            removeNegatives(bigArr[i]);
+            console.log("Output: arr: ",bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Second-to-Last. Return the second to last element in the given array. If it too short, return null");
+
+          function secondToLast(arr){
+            if (arr.length < 2) return null;
+            return (arr[arr.length - 2]);
+          }
+          // test it
+          bigArr = [
+            [42, true, "kate", 7],
+            [1,6,-3,4,-5,6,7,8],
+            [-9,2,3,-4,5,6,7,8],
+            [1,2,3,-4,5,6,9,-8],
+            [-1,2,-9,4,5,6,7,-8],
+            [1,2,3,4,5,6,7,8],
+            [-1,-1,-1,-7,-3],
+            [-3,3],
+            [0,-4],
+            [-1],
+            [1],
+            []
+            ];
+ 
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: arr: ",bigArr[i]);
+            console.log("Second to last element of arr is: ",secondToLast(bigArr[i]));
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Second Largest - return the second largest array element. If the array is too short, return null")
+
+          function secondLargest(arr){
+            if (arr.length < 2) return null;
+            var largest = arr[0];
+            var secLargest = arr[0];
+            for (var i = 0; i < arr.length; i++){
+              if (arr[i] > largest){
+                secLargest = largest;
+                largest = arr[i];
+              } else if (arr[i] > secLargest || secLargest == largest){
+                secLargest = arr[i];
+              }
+            }  
+            return secLargest;          
+          }
+
+          // test it
+          bigArr = [
+            [1,6,-3,4,-5,6,7,8],
+            [-9,2,3,-4,5,6,7,8],
+            [1,2,3,-4,5,6,9,-8],
+            [-1,2,-9,4,5,6,7,-8],
+            [1,2,3,4,5,6,7,8],
+            [-1,-1,-1,-7,-3],
+            [8,7,6,5,4,2,6,8,9,1],
+            [9,7,6,5,4,3,2,8],
+            [-3,3],
+            [0,-4],
+            [-1],
+            [1],
+            []
+            ];
+ 
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: arr: ",bigArr[i]);
+            console.log("Second largest element in arr is: ",secondLargest(bigArr[i]));
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Array nth-to-last: return the element that is n from array's end. If too short, return null")
+
+          function nthToLast(arr,n){
+            if (arr.length < n || n < 1) return null;
+            return (arr[arr.length - n]);
+          }
+          // test it
+          bigArr = [
+            [42, true, "kate", 7],
+            [1,6,-3,4,-5,6,7,8],
+            [-9,2,3,-4,5,6,7,8],
+            [1,2,3,-4,5,6,9,-8],
+            [-1,2,-9,4,5,6,7,-8],
+            [1,2,3,4,5,6,7,8],
+            [-1,-1,-1,-7,-3],
+            [-3,3],
+            [0,-4],
+            [-1],
+            [1],
+            [-4],
+            []
+            ];
+
+            var n = [3,2,1,8,10,5,1,0,5,12,3,1,2]
+ 
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: arr: ",bigArr[i]," n: ",n[i]);
+            console.log("Nth to last element of arr is: ",nthToLast(bigArr[i],n[i]));
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Nth Largest - return the nth largest array element. If the array is too short, return null")
+          
+          function nthLargest(arr,n){
+            // let's sort the array - will not be the most efficient -- revisit when I have learned more :)
+            var sortedArray = sortArray(arr);
+            removeDuplicates(sortedArray);
+
+            if (sortedArray.length < n || n < 1) return null;   // there isn't an nth to largest element in the array once dups are removed
+
+            return (sortedArray[n-1]);
+          }
+
+          function findLargest(arr){
+            var max = arr[0];
+            var indexOfMax = 0;
+            for (var i = 0; i < arr.length; i++){
+              if (arr[i] > max){
+                max = arr[i];
+                indexOfMax = i;
+              }
+            }
+            return indexOfMax;
+          }
+
+          function sortArray(arr){
+            var newArray = [];
+            var tempArray = arr;
+            var tempArrayIdx = 0;
+            
+            while(tempArray.length > 0){
+              tempArrayIdx = findLargest(tempArray);    // find Largest returns the index of the largest element
+              newArray.push(tempArray[tempArrayIdx]);    // store the newest largest value found in tempArray
+              removeAt(tempArray,tempArrayIdx);         // take that one out of tempArray and go again
+            }
+            return newArray;
+          }
+
+          function removeAt(arr,idx){
+            var val = arr[idx];
+            for (var i = idx; i < arr.length; i++){
+              arr[i] = arr[i+1];
+            }
+            arr.pop();
+            return val;
+          }
+
+          function removeDuplicates(arr){
+
+            var newIdx = 0;         // newIdx walks through the emerging-in-place new version of the array
+            var oldIdx = 1;         // oldIdx walks through the array looking at every value
+
+            for (var oldIdx = 1; oldIdx < arr.length; oldIdx++){      // do nothing with arr[0]
+              if (arr[newIdx] == arr[oldIdx]){
+              } else {
+                newIdx++;
+                arr[newIdx] = arr[oldIdx];
+              }
+            }
+            arr.length = arr.length - (oldIdx - newIdx -1);
+          }
+
+
+
+          // test it
+          bigArr = [
+            [1,6,-3,4,-5,6,7,8],
+            [-9,2,3,-4,5,6,7,8],
+            [1,2,3,-4,5,6,9,-8],
+            [-1,2,-9,4,5,6,7,-8],
+            [1,2,3,4,5,6,7,8],
+            [-1,-1,-1,-7,-3],
+            [-3,3],
+            [0,-4],
+            [-1],
+            [1],
+            [-4],
+            []
+            ];
+
+          var n = [3,2,1,8,10,5,1,0,5,12,3,1,2]
+          var str = "";
+ 
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: arr: ",bigArr[i]," n: ",n[i]);
+            switch (n[i]) {
+            case 1:
+              str = "Largest";
+              break;
+            case 2:
+              str = "2nd to Largest";
+              break;
+            case 3:
+              str = "3rd to Largest";
+              break;
+            default:
+              str = n[i]+"th to Largest"
+            }
+            console.log(str, " element of arr is: ",nthLargest(bigArr[i],n[i]));
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Credit Card Validation using the Luhn formula");
+
+          /*  Steps:
+          1. Set aside the last digit; do not include it in the calculations until step 5
+          2. Starting from the back, multiply the digits in odd positions (last, third-to-last, etc.) by 2.
+          3. If any results are larger than 9, subtract 9 from them.
+          4. Add all numbers (not just our odds) together.
+          5. Now add the last digit back in - the sum should be a multiple of 10. 
+          */
+
+          var number = 52282;
+          console.log("number: ", number);
+          var numArrRev = [];
+          while (number > 0){
+            numArrRev.push(Math.floor(number % 10))
+            number = Math.floor(number/10)
+          }
+          console.log("numArrRev: ", numArrRev);
+          // reverse array
+          var numArr = [];
+          for (var i = numArrRev.length-1; i >= 0; i--){
+            numArr.push(numArrRev[i])
+          }
+          console.log("numArr: ", numArr);
+
+          // Step 1
+          last_digit = numArr[numArr.length-1];
+          console.log("last_digit: ", last_digit);
+          numArr.pop()
+          console.log("numArr: ", numArr);
+
+          // Step 2
+          for (var i = numArr.length-1; i >= 0; i--){
+            if ((i % 2) != 0){
+              numArr[i] *= 2;
+              // Step 3
+              if (numArr[i] > 9){
+                numArr[i] -= 9;
+              }
+            }
+          }
+          console.log("numArr: ", numArr)
+
+          // Step 4
+          var sum = 0;
+          for (var i = 0; i < numArr.length; i++){
+            sum += numArr[i];
+          }
+
+          // Step 5
+          sum += last_digit
+
+          if (sum % 10 == 0){
+            console.log("It is valid")
+          }
+          else {
+            console.log("It is not valid")
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Shuffle");
+
+          function shuffle(arr) {
+            for (var i = 0; i < arr.length; i++){
+              ranIdx = Math.floor(Math.random() * (arr.length-1));
+              temp = arr[i];
+              arr[i] = arr[ranIdx];
+              arr[ranIdx] = temp;
+            }
+            return arr;
+          }
+
+          arr = [1,2,3,4,5,6,7,8];
+          console.log(shuffle(arr));
+          arr = [1,2,3,4,5,6,7,8];
+          console.log(shuffle(arr));
+          arr = [1,2,3,4,5,6,7,8];
+          console.log(shuffle(arr));
+          arr = [1,2,3,4,5,6,7,8];
+          console.log(shuffle(arr));
+          arr = [1,2,3,4,5,6,7,8];
+          console.log(shuffle(arr));
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Remove Range");
+
+          function removeRange(arr,start,end){
+            rcount = end - start + 1;
+            for (var i = start; i < (arr.length - rcount); i++){
+              arr[i] = arr[i + rcount];
+            }
+            arr.length -= rcount;
+          }
+          arr = [20, 30, 40, 50, 60, 70];
+          removeRange(arr, 2, 4)
+          console.log(arr);
+
+
+
+
+
+
+        })
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

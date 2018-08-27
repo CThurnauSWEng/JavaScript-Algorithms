@@ -1,0 +1,261 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Fundamentals 1</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          console.log("Coding Dojo Algorithms Book: p.16 ");
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Setting and swapping");
+          var myNumber = 42;
+          var myName = "Carrie";
+          console.log ("Before: myNumber: ",myNumber, " myName: ",myName);
+          var temp = myNumber;
+          myNumber = myName;
+          myName = temp;
+          console.log ("After: myNumber: ",myNumber, " myName: ",myName);
+          console.log("---------------------------------------------------------------------------------------------------");
+          // using -5 to 3, so that the console window won't be unreasonable to look at :)
+          console.log("Print -5 to 3");
+          for (var i=-5; i<4; i++){
+            console.log(i);
+          }           
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Don't Worry, Be Happy");
+          function beCheerful(){
+            console.log("good morning!");
+          }
+          // calling 3 times instead of 98 :)
+          beCheerful();
+          beCheerful();
+          beCheerful();
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Multiples of 3, from -15 to 0 but not -3 and -6");
+          function mostMultiplesOfThree(){
+            for (var i=-15; i<1; i+=3){
+              if (i != -3 && i != -6){
+                console.log(i);
+              }
+            }
+          }
+          mostMultiplesOfThree();
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Printing integers 0 to 4 using a while loop");
+          var j = 0;
+          while (j<5){
+            console.log(j);
+            j++;
+          }
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("You say it's your birthday");
+          function checkInput(param1,param2){
+            console.log("Called function with ",param1," and ", param2);
+            if ((param1 == 3 && param2 == 13) || (param1 == 13 && param2 == 3)){
+              console.log("How did you know?")
+            }
+            else{
+              console.log("Just another day...")
+            }
+          }
+          checkInput(3,12);
+          checkInput(2,12);
+          checkInput(2,13);
+          checkInput(3,13);
+          checkInput(13,3);
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Leap Year: divisible by 4, yes; divisible by 100, no; divisible by 400, yes");
+          function isThisALeapYear(year){
+            var leapyear = false;
+            if (year % 4 == 0){
+              leapyear = true;
+              if (year % 100  == 0){
+                if (year %400 != 0){
+                  leapyear = false;
+                }
+              }
+            }
+            return leapyear;
+          }
+          var test_data = [
+            {input: 203, expected_output: false},
+            {input: 204, expected_output: true},
+            {input: 100, expected_output: false},
+            {input: 200, expected_output: false},
+            {input: 400, expected_output: true},
+            {input: 800, expected_output: true},
+            ]
+          function testLeapYear(){
+            var result = false;
+            var passed = false;
+            for (var i=0; i<test_data.length; i++){
+              result = isThisALeapYear(test_data[i].input);
+              if (result == test_data[i].expected_output){
+                passed = true;
+              }
+              console.log("input: ",test_data[i].input, "expected result: ", test_data[i].expected_output,
+                "actual result: ", result, "passed: ", passed);
+            }
+          }
+          testLeapYear();
+          console.log("---------------------------------------------------------------------------------------------------");
+          // skipping Print and Count -- too easy
+          console.log("Muliples of six between 0 and 36 using while");
+          var k = 0;
+          while (k<40){
+            console.log(k);
+            k += 6;
+          }
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Counting the Dojo way from 1 to 31. If divisible by 5, print Coding, if divisible by 10, print Dojo");
+          for (var i = 1; i<32; i++){
+            var str = "";
+            if (i % 5 == 0){
+              str = "Coding"
+            }
+            if (i % 10 == 0){
+              str += "Dojo";
+            }
+            if (!str){
+              console.log(i);
+            }
+            else {
+              console.log(str);
+            }
+          }
+          console.log("---------------------------------------------------------------------------------------------------");
+          // skipping what do you know - already used similar functionality
+          console.log("Whoa, That Sucker's Huge")
+
+          // will do this first the inefficient way to have the computer to verify and compile a set of correct answers
+          // then do it an efficient way and compare the output to see if the efficient way gets the same answers
+          function AddOdd1 (num1, num2){
+            var sum = 0;
+            for (var i = num1; i<= num2; i++){
+              if ((i % 2 == 1)||(i % 2 == -1)){
+                sum += i;
+              }
+              // console.log("running: i: ",i," sum: ",sum);
+            }
+            return sum;
+          }
+          // Case 1: equal mag neg and positive - return 0
+
+          // Case 2: large mag neg, small mag pos: eg: -100, 20
+          // want to use new range of -100, -20 (i.e. don't bother with -20 to 20)
+
+          // Case 3: small mag neg, large mag pos: e.g.: -80, 100
+          // want to use new range of 80, 100 (i.e. don't bother with -80 to 80)
+
+          // Case 4: both negative - cannot optimize
+
+          // Case 4: both positive - cannot optimize
+
+          function AddOdd2 (num1, num2){
+            var sum = 0;
+
+            if (num1 < 0 && num2 > 0){                  
+              if (Math.abs(num1) == Math.abs(num2)){    // Case 1
+                return 0;
+              }
+              else if (Math.abs(num1) > Math.abs(num2)){   // Case 2
+                num2 *= -1;
+                num2 -= 1;
+              }
+              else {      // Case 3
+                num1 *= -1;
+              }
+            }
+
+            // Case 4 and 5 use original unoptimized version
+
+            sum = AddOdd1(num1, num2);
+            return sum;
+          }
+          // use the following cases to test:
+         // odd neg - odd neg
+          // odd neg - even neg
+          // even neg - odd neg
+          // even 
+
+          var test_data_in = [
+            {num1: 3, num2: 15},      // odd pos - odd pos
+            {num1: 3, num2: 18},      // odd pos - even pos
+            {num1: 2, num2: 9},       // even pos - odd pos
+            {num1: 4, num2: 30},      // even pos - even pos
+            {num1: -33, num2: -5},    // odd neg - odd neg
+            {num1: -31, num2: -4},    // odd neg - even neg
+            {num1: -32, num2: -11},   // even neg - odd neg
+            {num1: -32, num2: -20},   // even neg - even neg
+            {num1: -301, num2: 201},  // odd neg - odd pos      mag neg > mag pos
+            {num1: -301, num2: 200},  // odd neg - even pos     mag neg > mag pos
+            {num1: -200, num2: 101},  // even neg - odd pos     mag neg > mag pos
+            {num1: -100, num2: 50},   // even neg - even pos    mag neg > mag pos
+            {num1: -55, num2: 53},    // odd neg - odd pos      mag neg < mag pos
+            {num1: -43, num2: 22},    // odd neg - even pos     mag neg < mag pos
+            {num1: -42, num2: 21},    // even neg - odd pos     mag neg < mag pos
+            {num1: -22, num2: 10},    // even neg - even pos    mag neg < mag pos
+            {num1: -21, num2: 21},    // odd neg = odd pos
+            {num1: -22, num2: 22},    // even neg = even pos
+            {num1: 0, num2: 9},       // 0 - odd pos
+            {num1: 0, num2: 12},      // 0 - even pos
+            {num1: 0, num2: 0}        // 0 - 0
+         ]
+
+          for (var i = 0; i<test_data_in.length; i++){
+            var result1 = AddOdd1(test_data_in[i].num1,test_data_in[i].num2);
+            var result2 = AddOdd2(test_data_in[i].num1,test_data_in[i].num2);
+            if (result1 == result2){
+              console.log("AddOdd1 result: ",result1," AddOdd2 result: ",result2, "It worked");
+            }
+            else {
+              console.log("****************ERROR*******************");
+              console.log("AddOdd1 result: ",result1," AddOdd2 result: ",result2);
+              console.log("****************ERROR*******************");
+            }
+          }
+          // skipping countdown by fours - easy while loop
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Flexible Countdown")
+          function FlexibleCountdown(lowNum, highNum, mult){
+            console.log("lowNum: ",lowNum," highNum: ",highNum, "mult: ",mult);
+            for (var i = highNum; i >= lowNum; i -=mult){
+              console.log(i);
+            }
+          }
+          FlexibleCountdown(2,9,3);
+          FlexibleCountdown(1,10,2);
+          FlexibleCountdown(100,101,1);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("The Final Countdown");
+          // instructions say to use param1, param2, etc., but why be confused if I don't have to be?
+          function FinalCountdown(mult,lowNum,highNum,exclusion) {
+            console.log("listing multiples of ",mult," between ",lowNum," and ",highNum," excluding ",exclusion);
+
+            // find the first number which is a multiple
+            var num = lowNum;
+            while (num % mult != 0){
+              num++;
+            }
+
+            while (num <= highNum){
+              if (num != exclusion){
+                console.log(num);
+              }
+              num += mult;
+            } 
+          }
+
+          FinalCountdown(3,1,15,12);
+          FinalCountdown(4,20,36,32);
+          FinalCountdown(5,12,42,20);
+
+        })
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+  </body>
+  </html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+        console.log("Algorithms:  ");
+        console.log("--------------------------");
+        console.log("Sorts");
+
+        // Bubble sort
+        myArray = [5, 1, 20, 3, 50, -3];
+
+        function printArray(thisArr){
+            for (var i = 0; i < thisArr.length; i++){
+                console.log(thisArr[i]);
+            }
+            return;
+        }
+        
+        console.log("Initial Array")
+        printArray(myArray);
+
+
+
+        function bubbleSort(thisArr){
+            // swap pairs of elements
+            var temp;
+            for (var i = 0; i < thisArr.length; i++){
+                for (var j = 0; j < thisArr.length-1; j++){
+                    if (thisArr[j] > thisArr[j+1]){
+                        temp = thisArr[j];
+                        thisArr[j] = thisArr[j+1];
+                        thisArr[j+1] = temp;
+                    }
+                }
+            }
+            return thisArr;
+        }
+
+        var sortedArr = bubbleSort(myArray);
+
+        console.log("--------------------------");
+        console.log("Bubble Sorted Array: n squared");
+        printArray(sortedArr);
+
+        function selectionSort(thisArr){
+            var temp;
+            for (var i = 0; i < thisArr.length; i++){
+                var min = thisArr[i];
+                for (var j = i; j < thisArr.length; j++){
+                    if (thisArr[j] < min) {
+                        temp = thisArr[i];
+                        thisArr[i] = thisArr[j];
+                        thisArr[j] = temp;
+                    }
+                }
+            }
+            return thisArr;
+        }
+
+        myArray = [5, 1, 20, 3, 50, -3, 300, -15];
+
+        console.log("Initial Array")
+        printArray(myArray);
+
+        var sortedArr = selectionSort(myArray);
+
+        console.log("--------------------------");
+        console.log("Selection Sorted Array: n squared");
+        printArray(sortedArr);
+
+        myArray = [5, 1, 0, 20, 3, 50, -3, 300, -15];
+
+        console.log("Initial Array")
+        printArray(myArray);
+
+        function mergeSort(thisArr){
+            if (thisArr.length < 2 ){
+                return thisArr;
+            } else {
+                var midpoint = parseInt(thisArr.length /2);
+                var leftArr = thisArr.slice(0, midpoint);
+                var rightArr = thisArr.slice(midpoint, thisArr.length);
+                return mergeArrays(mergeSort(leftArr), mergeSort(rightArr));
+            }
+        }
+
+        function mergeArrays(leftArr, rightArr){
+            var sortedArr = [];
+
+            while (leftArr.length && rightArr.length) {
+                if (leftArr[0] <= rightArr[0]) {
+                    sortedArr.push(leftArr[0]);
+                    leftArr = leftArr.slice(1)
+                } else {
+                    sortedArr.push(rightArr[0]);
+                    rightArr = rightArr.slice(1)
+                }
+            }
+            while (leftArr.length)
+                sortedArr.push(leftArr.shift());
+            while (rightArr.length)
+            sortedArr.push(rightArr.shift());
+            return sortedArr;
+        }
+
+        var sortedArr = mergeSort(myArray);
+
+        console.log("--------------------------");
+        console.log("Merge Sorted Array: n log(n)");
+        printArray(sortedArr);
+
+        myArray = [5, 1, 0, 20, 3, 50, -3, 300, -15, 3, 4, 200];
+
+        console.log("Longer Array for merge sort:")
+        printArray(myArray);
+
+        sortedArr = mergeSort(myArray);
+        console.log("Another merge Sorted Array: ");
+        printArray(sortedArr);
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

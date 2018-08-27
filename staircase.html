@@ -1,0 +1,34 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>
+
+
+function staircase(num) {
+    // draws a staircase based on the input number
+    // e.g. for num=3, output is:
+    //     #
+    //    ##
+    //   ###
+    for (var i = 1; i <= num; i++){
+        var temp_str = "";
+        for (var sp = 0; sp < (num-i); sp++){
+            temp_str += ' ';
+        }
+        for (var sym = 0;  sym < i; sym++){
+            temp_str += '#';
+        }
+        console.log(temp_str); 
+    }
+}
+
+staircase(6);
+
+</script>
+<title>Staircase - HR</title>
+</head>
+<body>
+<p>See console for output</p>
+</body>
+</html>

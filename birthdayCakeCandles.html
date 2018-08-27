@@ -1,0 +1,52 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>
+
+
+function birthdayCakeCandles(n, ar) {
+    // You are in-charge of the cake for your niece's birthday and have 
+    // decided the cake will have one candle for each year of her total 
+    // age. When she blows out the candles, she’ll only be able to blow 
+    // out the tallest ones. Your task is to find out how many candles 
+    // she can successfully blow out.
+
+    // For example, if your niece is turning 4 years old, and the cake will 
+    // have  candles of height 3, 2, 1, 3, she will be able to blow out  candles 
+    // successfully, since the tallest candle is of height  and there are  
+    // such candles.
+
+    // Complete the function birthdayCakeCandles that takes your niece's age 
+    // and an integer array containing height of each candle as input, and 
+    // return the number of candles she can successfully blow out.    
+
+    // find the tallest candle
+    var tallest = 0
+    for (var i = 0; i < ar.length; i++){
+        if (ar[i] > tallest){
+            tallest = ar[i];
+        }
+    }
+
+    // count how many are that tall
+    var count = 0
+    for (var i = 0; i < ar.length; i++){
+        if (ar[i] == tallest){
+            count++;
+        }
+    }
+    return count;
+
+}
+
+arr = [3,2,1,3];
+console.log(birthdayCakeCandles(4,arr))
+
+</script>
+<title>Birthday Candles - HR</title>
+</head>
+<body>
+<p>See console for output</p>
+</body>
+</html>

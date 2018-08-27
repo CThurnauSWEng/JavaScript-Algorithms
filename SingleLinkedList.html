@@ -1,0 +1,414 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Single Linked List</title>
+    <script>
+
+        function Node(val){
+            this.val = val;
+            this.next = null;
+        }
+
+        node_test = new Node('hello');
+        console.log("node.val: ", node_test.val);
+
+        function SLL() {
+            this.head = null;
+            this.addNodeToEnd = function(val){
+                node = new Node(val);
+                if (!this.head){   // first node is being added
+                    this.head = node;
+                }
+                else {             // add a node to the end
+                    var current = this.head;
+                    while (current.next != null){
+                        current = current.next;
+                    }
+                    current.next = node;
+                }
+                this.next = node; // HUH!!! might not need this????? -may be for case where this is the first node
+            }
+            this.addNodeToFront = function(val){
+                node = new Node(val);
+                temp = this.head;
+                this.head = node;
+                node.next = temp;
+            }
+            this.logHeadNodeVal = function(){
+                console.log("Head Node Value: ", this.head.val)
+            }
+            this.logAllVals = function(){
+                if (this.head == null) {
+                    console.log("list is empty")
+                    return;
+                }
+                var current = this.head;
+                while (current.next != null){
+                    console.log(current.val);
+                    current = current.next;
+                }
+                console.log(current.val);
+                return;
+            }
+            this.removeReturnHeadNodeVal = function(){
+                current = this.head;
+                var val = current.val;
+                this.head = current.next;
+                if (this.lengthOfList() == 0){
+                    this.head = null;
+                }
+                return val;
+            }
+            this.removeReturnLastNodeVal = function() {
+                var current = this.head;
+                while (current.next.next != null){
+                    current = current.next;
+                } 
+                var val = current.next.val;
+                current.next = null;
+                if (this.lengthOfList() == 0){
+                    this.head = null;
+                }
+                return val;
+            }
+            this.insertAtIndex = function(idx,val) {
+                // Put the value at the specified index
+                var current = this.head;
+                var node = new Node(val);
+                if (idx == 0) {
+                    node.next = this.head;
+                    this.head = node;
+                    return node;
+                } 
+                var count = 1;
+                while (current.next.next != null && count != idx){
+                    current = current.next;
+                    count++;
+                }
+                node.next = current.next;
+                current.next = node;
+            }
+            this.deleteAtIndex = function(idx) {
+
+                var current = this.head;
+                if (idx == 0) {
+                    this.head = current.next;
+                    return;
+                } 
+                var count = 1;
+                while (current.next.next != null && count != idx){
+                    current = current.next;
+                    count++;
+                }
+                current.next = current.next.next;
+            }
+            this.lengthOfList = function() {
+                if (this.head == null) {
+                    return 0;
+                }
+                var count = 1;
+                current = this.head;
+                while (current.next != null){
+                    current = current.next;
+                    count++;
+                }
+                return count;
+            }
+            this.maxVal = function() {
+                if (this.head == null) {
+                    return 0;
+                }
+                current = this.head;
+                var max = current.val;
+                while (current.next != null){
+                    if (current.next.val > max){
+                        max = current.next.val;
+                    }
+                    current = current.next;
+                }
+                return max;
+            }
+            this.minVal = function() {
+                if (this.head == null) {
+                    return 0;
+                }
+                current = this.head;
+                var min = current.val;
+                while (current.next != null){
+                    if (current.next.val < min){
+                        min = current.next.val;
+                    }
+                    current = current.next;
+                }
+                return min;
+            }
+            this.avg = function() {
+                if (this.head == null) {
+                    return 0;
+                }
+                current = this.head;
+                var sum = current.val;
+                while (current.next != null){
+                    sum += current.next.val;
+                    current = current.next;
+                }
+                avg = sum / this.lengthOfList();
+                return avg;
+            }
+            this.contains = function(val) {
+                var found_idx = -1;
+                if (this.head == null) {
+                    found_idx = -1;
+                    return found_idx;
+                }
+                current = this.head;
+                count = 0;
+                while (current != null && found_idx == -1){
+                    if (current.val == val){
+                        found_idx = count;
+                    }
+                    current = current.next;
+                    count++;
+                }
+                return found_idx;                
+            }
+            this.moveMinToFront = function() {
+                var min = this.minVal();
+                var minIdx = this.contains(min);
+                this.deleteAtIndex(minIdx);
+                this.addNodeToFront(min);
+            }
+            this.moveMaxToBack = function() {
+                var max = this.maxVal();
+                var maxIdx = this.contains(max);
+                this.deleteAtIndex(maxIdx);
+                this.addNodeToEnd(max);
+            }
+            this.zipAnother = function(list2) {
+                if (this.head == null) {
+                    this.head = list2;
+                }
+                runner1 = this.head;
+                runner2 = list2.head;
+                while (runner1 != null && runner2 != null){
+                    temp = runner1.next;
+                    runner1.next = runner2;
+                    runner2 = runner2.next;
+                    runner1.next.next = temp;
+                    runner1 = temp;
+                    if (!temp.next){
+                        temp.next = runner2;
+                        break;
+                    }
+                }
+            }
+        }
+
+        var sList = new SLL();
+
+        sList.addNodeToEnd(100);
+        sList.logHeadNodeVal();
+        sList.addNodeToEnd(200);
+        sList.addNodeToEnd(300);
+        sList.addNodeToEnd(400);
+        sList.addNodeToEnd(500);
+        sList.addNodeToEnd(600);
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("******** Remove and return first node value");
+        console.log(sList.removeReturnHeadNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("******** Remove and return last node value");
+        console.log(sList.removeReturnLastNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("******** Add to front **********");
+        sList.addNodeToFront(75);
+        sList.addNodeToFront(50);
+        sList.addNodeToFront(25);
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("******** Insert at index - Put the value at the specified index *********");
+        console.log("sList.insertAtIndex(0,10)");
+        sList.insertAtIndex(0,10);
+        sList.logAllVals();
+        console.log("sList.insertAtIndex(4,130)");
+        sList.insertAtIndex(4,130);
+        sList.logAllVals();
+        console.log("sList.insertAtIndex(8,450)");
+        sList.insertAtIndex(8,450);
+        sList.logAllVals();
+        console.log("******** Delete at index 0 *******");
+        sList.deleteAtIndex(0);
+        sList.logAllVals();
+        console.log("******** Delete at index 3 *******");
+        sList.deleteAtIndex(3); 
+        sList.logAllVals();
+        console.log("******** Delete at index 6 *******");
+        sList.deleteAtIndex(6); 
+        sList.logAllVals();
+        console.log("******** Length *******");
+        console.log("Length: ", sList.lengthOfList()); 
+        console.log("Remove 3 from front")
+        console.log("removed: ", sList.removeReturnHeadNodeVal());
+        console.log("removed: ", sList.removeReturnHeadNodeVal());
+        console.log("removed: ", sList.removeReturnHeadNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("Length: ", sList.lengthOfList()); 
+        console.log("Remove 2 from front")
+        console.log("removed: ", sList.removeReturnHeadNodeVal());
+        console.log("removed: ", sList.removeReturnHeadNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("Length: ", sList.lengthOfList()); 
+        console.log("Remove 1 from front")
+        console.log("removed: ", sList.removeReturnHeadNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("Remove 1 from front")
+        console.log("removed: ", sList.removeReturnHeadNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("Length: ", sList.lengthOfList()); 
+        console.log("******** Get max of empty list ********");
+        console.log("Max: ", sList.maxVal());
+        console.log("******** Add one val ********");
+        console.log("******** Get max of list of length 1 ********");
+        sList.addNodeToEnd(100);
+        console.log("Max: ", sList.maxVal());
+        console.log("Min: ", sList.minVal());
+        console.log("******** Add more vals ********");
+        sList.addNodeToEnd(200);
+        sList.addNodeToEnd(300);
+        sList.addNodeToEnd(10);
+        sList.addNodeToEnd(600);
+        sList.addNodeToEnd(400);
+        sList.addNodeToEnd(500);
+        sList.logAllVals();
+        console.log("Now max is: ", sList.maxVal());
+        console.log("Now min is: ", sList.minVal());
+        console.log("******** Add max to end ********");
+        sList.addNodeToEnd(700);
+        sList.logAllVals();
+        console.log("Now max is: ", sList.maxVal());
+        sList.addNodeToEnd(5);
+        sList.logAllVals();
+        console.log("Now min is: ", sList.minVal());
+        console.log("******** Remove and return last node value");
+        console.log("removed: ", sList.removeReturnLastNodeVal());
+        console.log("removed: ", sList.removeReturnLastNodeVal());
+        console.log("removed: ", sList.removeReturnLastNodeVal());
+        console.log("removed: ", sList.removeReturnLastNodeVal());
+        console.log("removed: ", sList.removeReturnLastNodeVal());
+        console.log("removed: ", sList.removeReturnLastNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("******** Average *********")
+        console.log("average: ", sList.avg());
+        console.log("******** Remove 2 entries and check average function with len=1 *********")
+        console.log("removed: ", sList.removeReturnLastNodeVal());
+        console.log("removed: ", sList.removeReturnLastNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("average: ", sList.avg());
+        console.log("******** Add values to get ready to test 'contains'")
+        sList.addNodeToEnd(200);
+        sList.addNodeToEnd(300);
+        sList.addNodeToEnd(400);
+        sList.addNodeToEnd(500);
+        sList.addNodeToEnd(600);
+        sList.logAllVals();
+        console.log("List contains: 100 at index: ", sList.contains(100));
+        console.log("List contains: 400 at index: ", sList.contains(400));
+        console.log("List contains: 600 at index: ", sList.contains(600));
+        console.log("****** Add a new min to the middle ********");
+        sList.insertAtIndex(3, 3);
+        sList.logAllVals();
+        console.log("****** Move min to front *********");
+        sList.moveMinToFront();
+        sList.logAllVals();
+        console.log("****** Add a new max to the middle ********");
+        sList.insertAtIndex(3, 1000);
+        sList.logAllVals();
+        console.log("****** Move max to back *********");
+        sList.moveMaxToBack();
+        sList.logAllVals();
+        console.log("******** Remove and return first node value");
+        console.log(sList.removeReturnHeadNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("******** Remove and return last node value");
+        console.log(sList.removeReturnLastNodeVal());
+        console.log("******** Log all values ********");
+        sList.logAllVals();
+        console.log("******** Create another list *********")
+        var sList2 = new SLL();
+        sList2.addNodeToEnd(1);
+        sList2.addNodeToEnd(2);
+        sList2.addNodeToEnd(3);
+        sList2.addNodeToEnd(4);
+        sList2.addNodeToEnd(5);
+        sList2.addNodeToEnd(6);
+        sList2.logAllVals();
+        console.log("******** Zip second list into first one - Same lengths *********")
+        sList.zipAnother(sList2);        
+        sList.logAllVals();
+        console.log("******** Zip second list into first one - Second list is shorter *********")
+        var sList3 = new SLL();
+        sList3.addNodeToEnd("aaaa");
+        sList3.addNodeToEnd("bbbb");
+        sList.zipAnother(sList3);        
+        sList.logAllVals();
+        console.log("******** Zip second list into first one - Second list is longer *********")
+        var sList4 = new SLL();
+        sList4.addNodeToEnd('a');
+        sList4.addNodeToEnd('b');
+        sList4.addNodeToEnd('c');
+        sList4.addNodeToEnd('d');
+        sList4.addNodeToEnd('e');
+        sList4.addNodeToEnd('f');
+        sList4.addNodeToEnd('g');
+        sList4.addNodeToEnd('h');
+        sList4.addNodeToEnd('i');
+        sList4.addNodeToEnd('j');
+        sList4.addNodeToEnd('k');
+        sList4.addNodeToEnd('l');
+        sList4.addNodeToEnd('m');
+        sList4.addNodeToEnd('n');
+        sList4.addNodeToEnd('o');
+        sList4.addNodeToEnd('p');
+        sList4.addNodeToEnd('q');
+        sList4.addNodeToEnd('r');
+        sList4.addNodeToEnd('s');
+        sList4.addNodeToEnd('t');
+        sList4.addNodeToEnd('u');
+        sList4.addNodeToEnd('v');
+        sList4.addNodeToEnd('w');
+        sList4.addNodeToEnd('x');
+        sList4.addNodeToEnd('y');
+        sList4.addNodeToEnd('z');
+        sList.zipAnother(sList4);        
+        sList.logAllVals();
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

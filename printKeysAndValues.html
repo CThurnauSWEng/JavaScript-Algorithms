@@ -1,0 +1,34 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+      console.log("Algorithms: printKeysAndValues  ");
+      console.log("---------------------------------------------------------------------------------------------------");
+
+      function PrintKeysAndValues(obj) {
+        for (key in obj){
+          console.log("key: ",key)
+          console.log("value: ", obj[key])
+        }
+      }
+
+      obj = {
+        "quarter" : 25,
+        "dime"    : 10
+      }
+
+      PrintKeysAndValues(obj);
+
+      console.log("1 obj.quarter: ",obj.quarter)
+      // console.log("2 obj.quarter: ",obj[quarter])  --- INCORRECT
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

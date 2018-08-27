@@ -1,0 +1,70 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Fundamentals Quiz Game</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+          var Questions = [
+            "What is the capital of Washington State?",
+            "What do Labradors like to eat?",
+            "What country is Rothenberg in?",
+            "What is the currency of Germany",
+            "Who is an egomaniac?",
+            "What is the best coding bootcamp?"
+          ];
+
+          var Answers = [
+            "Seattle",
+            "Everything",
+            "Germany",
+            "The Euro",
+            "Trump",
+            "CodingDojo"
+          ];
+
+          var name = prompt("What is your name?","name");
+
+          var answer = "";
+          var correct = 0;
+          var str = "";
+          var j = 0;
+
+          for (var i = 0; i < Questions.length; i++){
+            answer = "xxx";
+            j = i+1;
+
+            str = "Ok, "+name+", question "+j+" is "+Questions[i];
+            answer = prompt(str);
+
+            if (answer == 'Q' || (!answer)){
+              console.log("Q or cancel detected... Quitting");
+              break;
+            } else if (answer == Answers[i]){
+              correct++;
+              alert("Correct!")
+            } else if (Questions[i] == "What do Labradors like to eat?"){
+              correct++;
+              alert("Correct!")  // Since they like to eat everything, any answer is correct
+            } else {
+              alert("hmmmm... not what I thought...")
+            }
+
+          }
+          str = name+", you answered  " +j+ " questions.";
+          str += " You got "+correct+" answers correct!";
+          alert(str);
+
+
+
+
+
+        })
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

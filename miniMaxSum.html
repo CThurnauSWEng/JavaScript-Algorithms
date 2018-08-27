@@ -1,0 +1,46 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>
+
+
+function miniMaxSum(arr) {
+    // Print two space-separated long integers denoting the respective minimum 
+    // and maximum values that can be calculated by summing exactly four of the 
+    // five integers. 
+
+    var sumArr = [];
+    for (var i = 0; i < arr.length; i++){
+        sum = 0;
+        for (var j = 0; j < arr.length; j++){
+            if (j != i){
+                sum += arr[j];
+            }
+        }
+        sumArr.push(sum);
+    }
+    var maxSum = sumArr[0];
+    var minSum = sumArr[0];
+    for (var i = 0; i < sumArr.length; i++){
+        if (sumArr[i] > maxSum){
+            maxSum = sumArr[i];
+        }
+        if (sumArr[i] < minSum){
+            minSum = sumArr[i];
+        }
+    }
+
+    console.log(minSum,maxSum);
+}
+
+arr = [1,2,3,4,5]
+miniMaxSum(arr);
+
+</script>
+<title>Mini-MaxSum - HR</title>
+</head>
+<body>
+<p>See console for output</p>
+</body>
+</html>

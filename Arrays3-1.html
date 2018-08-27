@@ -1,0 +1,240 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Fundamentals 3-1</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          console.log("Algorithms: Coding Dojo Book pp. 38-39 ");
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Push to Front. Insert the given value at the front of the array");
+ 
+          function pushToFront(arr, val){
+            for (var i = arr.length; i > 0; i--){
+              arr[i] = arr[i-1];
+            }
+            arr[0] = val;
+          }
+
+          //test it
+          var bigArr = [
+            [1,2,3,4,5],
+            ['a','b','c','d','e'],
+            ['hi','hello','how are you'],
+            [],
+            [1]
+          ]
+
+          var val = [99, 'z', 'greetings', 777, 88];
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i],val[i]);
+            pushToFront(bigArr[i],val[i]);
+            console.log(bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Pop front. remove and return the value at the beginning of the array")
+
+          function popFront(arr){
+            var val = arr[0];
+            for (var i = 0; i < arr.length-1; i++){
+              arr[i] = arr[i+1];
+            }
+            arr.pop();
+            return val;
+          }
+
+          // test it
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i]);
+            console.log("Return value: ", popFront(bigArr[i]));
+            console.log("Modified array: ",bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Insert At. Given an array, index, and a value, insert the value at the given index");
+
+          function insertAt(arr,idx,val){
+            for (var i = arr.length; i > idx; i--){
+              arr[i] = arr[i-1];
+            }
+            arr[idx] = val;
+          }
+
+          // test it
+          bigArr = [
+            [1,2,3,4,5],
+            ['a','b','c','d','e'],
+            ['hi','hello','how are you'],
+            [],
+            [1],
+            [5]
+          ]
+
+          val = [99, 'z', 'greetings', 777, 88, 'qwerty'];
+          
+          var idx = [2, 3, 1, 0, 1, 0]
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i],idx[i],val[i]);
+            insertAt(bigArr[i],idx[i],val[i]);
+            console.log(bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Remove at. Given and array and an index, remove and return the value at that index");
+
+          function removeAt(arr,idx){
+            var val = arr[idx];
+            for (var i = idx; i < arr.length; i++){
+              arr[i] = arr[i+1];
+            }
+            arr.pop();
+            return val;
+          }
+
+          // test it
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i],idx[i]);
+            val[i] = removeAt(bigArr[i],idx[i]);
+            console.log(bigArr[i],val[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Swap Pairs. swap positions of successive pairs of values. if odd, do not swap last");
+
+          function swapPairs(arr){
+            var endPoint = arr.length;
+            if (arr.length % 2 != 0){
+              endPoint--;               // if odd number, then stop one element early
+            }
+            var temp = "";
+            for (var i = 0; i < endPoint; i+=2){
+              temp = arr[i];
+              arr[i] = arr[i+1];
+              arr[i+1] = temp;
+            }
+          }
+
+          // test it
+          bigArr = [
+            [1,2,3,4,5],
+            ['a','b','c','d','e'],
+            ['hi','hello','how are you'],
+            [],
+            [1],
+            [5, 6, 7, 8, 9, 10]
+          ]
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i]);
+            swapPairs(bigArr[i]);
+            console.log(bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Remove Duplicates. Given a sorted array, remove duplicates")
+          console.log("******* ERROR doens't work if 3 dups in a row")
+
+          function removeDuplicates(arr){
+            for (var i = 0; i < arr.length; i++){
+              if (arr[i] == arr[i+1]){
+                for (var j = i; j < arr.length; j++){
+                  arr[j] = arr[j+1];
+                }
+                arr.pop();
+              }
+            }
+          }
+
+          var arr = [2,2,3,3,4,4,5,6,7,8,8];
+          console.log("Before: ", arr);
+          removeDuplicates(arr);
+          console.log("After: ", arr);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Rewrite removeDuplicates to not use a nexted loop")
+
+
+          function removeDuplicates1(arr){
+
+            var newIdx = 0;         // newIdx walks through the emerging-in-place new version of the array
+            var oldIdx = 1;         // oldIdx walks through the array looking at every value
+
+            for (var oldIdx = 1; oldIdx < arr.length; oldIdx++){      // do nothing with arr[0]
+              if (arr[newIdx] == arr[oldIdx]){
+              } else {
+                newIdx++;
+                arr[newIdx] = arr[oldIdx];
+              }
+            }
+            arr.length = arr.length - (oldIdx - newIdx -1);
+          }
+
+          // test it
+      
+          bigArr = [
+            [1,2,3,4,5,5,5,5,5,6],
+            ['a','a','a','b','c','c','d','e'],
+            ['hi','hello','how are you','how are you','how are you'],
+            [],
+            [1],
+            [5, 6, 7, 8, 8, 8, 8, 9, 10],
+            [2,2,3,3,4,4,5,6,7,8,8]
+          ]
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i]);
+            removeDuplicates1(bigArr[i]);
+            console.log(bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Min to Front - given an array, move the element with the lowest value to the front without otherwise changing the order")
+
+          function minToFront(arr){
+            if (arr.length < 2) return;
+            // first find the minimum value
+            var min = arr[0];
+            var minIdx = 0;
+            for (var i = 0; i < arr.length; i++){
+              if (arr[i] < min){
+                min = arr[i];
+                minIdx = i;
+              }
+            }
+            // now move the min to the front and shift the ones that were before the min to the right by one to make room for min at the front
+            for (var i = minIdx; i > 0; i--){
+              arr[i] = arr[i-1];
+            }
+            arr[0] = min;
+          }
+          // test it
+      
+          bigArr = [
+            [5, 6, 7, 8, 8, 8, 8, 9, 10],     // min is first
+            [2,1,3,4,5,6],                    // min is second
+            [2,2,3,4,1,5,5,5,5,6],            // min is in the middle
+            [2,2,3,3,4,4,5,6,7,1,8],          // min is second to last
+            [2,2,3,3,4,4,5,6,7,8,1],          // min is last
+            [],                               // empty array
+            [1]                               // array with only one element
+          ]
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i]);
+            minToFront(bigArr[i]);
+            console.log(bigArr[i]);
+          }
+
+ 
+
+        })
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

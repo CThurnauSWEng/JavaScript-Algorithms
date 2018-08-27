@@ -1,0 +1,45 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>
+
+
+function timeConversion(s) {
+    // Given a time in 12-hour AM/PM format, convert it to military(24-hour)time.
+    // e.g. input is 07:05:45PM => output is 19:05:45
+
+    var hours = s[0] + s[1];
+    var hoursnum = Number(hours);
+
+    if (s[8] == "P") {                  // PM
+        if (hoursnum != 12){
+            hoursnum += 12;
+            hours = hoursnum.toString()
+        }
+    }
+    else {                             // AM
+        if (hoursnum == 12){
+            hours = '00'
+        }
+    }
+
+    var output =  hours + s.slice(2,8)
+    console.log(output)
+    return output;
+
+}
+timeConversion("07:05:45PM")
+timeConversion("07:05:45AM")
+timeConversion("10:05:45PM")
+timeConversion("10:05:45AM")
+timeConversion("12:05:45AM")
+timeConversion("12:45:45PM")
+
+</script>
+<title>time conversion - HR</title>
+</head>
+<body>
+<p>See console for output</p>
+</body>
+</html>

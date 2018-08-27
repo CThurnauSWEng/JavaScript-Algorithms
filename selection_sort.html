@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+          console.log("Algorithms:  Selection Sort");
+          console.log("---------------------------------------------------------------------------------------------------");
+
+          // given a list, take the current element and exchange it with the smallest
+          // element on the right hand side of the current element
+
+          function selection_sort(arr){
+            console.log("input array: ", arr);
+            let pos = 0;
+            for (let i = 0; i < arr.length; i++){
+              pos = getMinPos(arr, i);
+              temp = arr[i];
+              arr[i] = arr[pos];
+              arr[pos] = temp;
+            }
+            return arr;
+          }
+
+
+          function getMinPos(arr, start){
+            // returns the position in the passed array that contains the
+            // smallest number
+            let min = arr[start];
+            let pos = start;
+            for (let i = start; i < arr.length; i++){
+              if (arr[i] < min){
+                pos = i;
+                min = arr[i];
+              }
+            }
+            return pos;
+          }
+
+          console.log(selection_sort([4,5,2,3,6]));
+          console.log(selection_sort([5,4,6]));
+          console.log(selection_sort([5,4]));
+          console.log(selection_sort([5]));
+          console.log(selection_sort([]));
+          console.log(selection_sort([9,8,7,6,5]));
+          console.log(selection_sort([1,2,3,4]));
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

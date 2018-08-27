@@ -1,0 +1,348 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Fundamentals 3-2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          console.log("Algorithms: Coding Dojo book p 40");
+          console.log("---------------------------------------------------------------------------------------------------");
+
+          console.log("Reverse Array - work in-place");
+
+          function reverseArray(arr){
+            if (arr.length < 1) return;
+            var backIdx = arr.length-1;
+            var temp;
+            for (var frontIdx = 0; frontIdx <= arr.length/2; frontIdx++){
+              temp = arr[backIdx];
+              arr[backIdx] = arr[frontIdx];
+              arr[frontIdx] = temp;
+              backIdx--;
+            }
+          }
+
+          // test it
+      
+          var bigArr = [
+            [1,2,3,4,5,5,5,5,5,6],
+            ['a','a','a','b','c','c','d','e'],
+            ['hi','hello','how are you','how are you','how are you'],
+            [],
+            [1],
+            [5, 6, 7, 8, 8, 8, 8, 9, 10],
+            [2,2,3,3,4,4,5,6,7,8,8]
+          ]
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i]);
+            reverseArray(bigArr[i]);
+            console.log(bigArr[i]);
+          }
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Rotate Array - given an array and offset, shift the array's values to the right by the offset and wrap around values that spill off")
+
+          function rotateArray1(arr,shift){
+            if (arr.length < 2) return;
+            var temp = "";
+            for (var s = 1; s <= shift; s++){
+              temp = arr[arr.length -1];
+              // move all values left except for the last one
+              for (var i = arr.length-1; i > 0; i--){
+                arr[i] = arr[i-1];
+              }
+              arr[0] = temp;
+            }
+          }
+
+          // test it
+          bigArr = [
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3],
+            [1,2,3],
+            [1,2],
+            [1],
+            []
+          ]
+
+          var shiftby = [
+            1,2,3,7,8,2,1,1,1,1
+          ]
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i],"Shift by: ",shiftby[i]);
+            rotateArray1(bigArr[i],shiftby[i]);
+            console.log(bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Rotate Array - version 2 - rotate right if shift value is negative")
+
+          function rotateArray2(arr,shift){
+            if (arr.length < 2) return;
+            var temp = "";
+
+            if (shift > 0){
+              for (var s = 1; s <= shift; s++){
+                temp = arr[arr.length -1];
+                // move all values left except for the last one
+                for (var i = arr.length-1; i > 0; i--){
+                  arr[i] = arr[i-1];
+                }
+                arr[0] = temp;
+              }
+            } else {
+              for (var s = 1; s <= -shift; s++){
+                temp = arr[0];
+                for (var i = 1; i < arr.length; i++){
+                  arr[i-1] = arr[i];
+                }
+                arr[arr.length-1] = temp;
+              }
+            }
+          }
+
+          // test it
+          bigArr = [
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3],
+            [1,2,3],
+            [1,2],
+            [1],
+            [],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3],
+            [1,2,3],
+            [1,2],
+            [1],
+            []
+          ]
+
+          var shiftby = [
+            1,2,3,7,8,2,1,1,1,1,-1,-2,-3,-7,-8,-2,-1,-1,-1,-1
+          ]
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i]," Shift by: ",shiftby[i]);
+            rotateArray2(bigArr[i],shiftby[i]);
+            console.log(bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Rotate Array - Version 3 - Minimize memory usage - shift in place. No change needed - see version 2");
+          console.log("Rotate Array - Version 4 - Minimize the touches of each element");
+
+          // assume we are going to use more memory to save execution time for version 4.
+          // so let's create a new array
+
+          function rotateArray4(arr,shift){
+            var newArr = [];
+
+            if (arr.length < 2) return arr;
+
+            if (shift > 0){
+              // first put values from the shift position +1 and on into the front of the new array
+              for (var i = (arr.length - shift); i < arr.length; i++){
+                newArr[i-(arr.length-shift)] = arr[i];
+              }
+              // now put the original first values onto the end of the new array
+              for (var i = 0; i < (arr.length-shift); i++){
+                newArr[i+shift] = arr[i];
+              }
+            } else {  // shift left
+              // for negative shift value, shift left
+              // first take the last 'x' elements (from pos 'shift') to the end and put into the front of new array
+              shift = Math.abs(shift);
+              for (var i = 0; i < (arr.length-shift); i++){
+                newArr[i] = arr[i+shift];
+              }
+              // now put the front portion onto the end of the new array
+              for (var i = 0; i < shift; i++){
+                newArr[i+(arr.length - shift)] = arr[i];
+              }
+            }
+            return newArr;
+          }          
+
+          // test it
+          bigArr = [
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3],
+            [1,2,3],
+            [1,2],
+            [1],
+            [],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3],
+            [1,2,3],
+            [1,2],
+            [1],
+            []
+          ]
+          var shiftby = [
+            1,2,3,7,8,2,1,1,1,1,-1,-2,-3,-7,-8,-2,-1,-1,-1,-1
+          ]
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: ",bigArr[i]," Shift by: ",shiftby[i]);
+            console.log(rotateArray4(bigArr[i],shiftby[i]));
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Eliminate values are not within a specified range")
+          console.log("Return modifed array - having retained only the values between min and max - assume keep values equal to min or max")
+
+          function filterRange(arr, min, max){
+            var skipped = 0;
+            var newIdx = 0;
+            if (arr.length == 0) return;
+            for (var i = 0; i < arr.length; i++){
+              // console.log("i: ", i, "arr[i]: ",arr[i]," min: ",min," max: ",max);
+              if (arr[i] < min || arr[i] > max){    // remove (i.e. don't store) outside the range defined by min and max
+                skipped++;
+              }
+              else {  // value is between min and max -inclusively
+                arr[newIdx] = arr[i]; 
+                newIdx++;
+              }
+            }
+            // console.log("skipped: ",skipped)
+            arr.length -= skipped;
+          }
+
+          // test it
+          bigArr = [
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3],
+            [1,2,3],
+            [1,2],
+            [1],
+            []
+            ];
+
+          min = [1,2,3,4,5,5,3,1,1,0,1];
+          max = [4,5,6,7,8,9,3,2,2,1,0];
+ 
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: arr: ",bigArr[i]," min: ", min[i], " max: ", max[i]);
+            filterRange(bigArr[i], min[i], max[i]);
+            console.log("Output: arr: ",bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Concatenate two arrays - return in a new array")
+
+          function concat(arr1, arr2){
+            var newArr = [];
+            for (var i = 0; i < arr1.length; i++){
+              newArr.push(arr1[i]);
+            }
+            for (var i = 0; i < arr2.length; i++){
+              newArr.push(arr2[i]);
+            }
+            return newArr;
+          }
+
+          // test it
+          var bigArr1 = [
+            [1,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [1,2,3],
+            [1,2],
+            [1],
+            []
+            ];
+
+          var bigArr2 = [
+            [9,10,11,12],
+            [99],
+            [22,33,44,55,66,77,88,99],
+            [],
+            [1,2,3,4,5,6,7,8],
+            [22,33,44,55,66,77,88,99],
+            ];
+
+          for (var i = 0; i < bigArr1.length; i++){
+            console.log("Before: Arr1: ", bigArr1[i], "Arr2: ", bigArr2[i]);
+            console.log("After: ", concat(bigArr1[i],bigArr2[i]));
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Skyline Heights");
+          console.log("if array element val is 0 or -1, then skip. if array element is less than a previous val, then skip")
+
+          function skylineHeights(arr){
+            var skipped = 0;
+            var newIdx = 0;
+            var maxHtSoFar = arr[0];
+
+            for (var i = 0; i < arr.length; i++){
+              if (arr[i] < 1 || (arr[i] <= maxHtSoFar && newIdx > 0)){  // can't see building, so don't store in array
+                skipped++;
+              } else {                                 // can see it, so store it
+                maxHtSoFar = arr[i];
+                arr[newIdx] = arr[i];
+                newIdx++;
+              }
+            }
+            arr.length -= skipped;
+          }
+
+          // test it
+          bigArr = [
+            [1,6,3,4,5,6,7,8],
+            [9,2,3,4,5,6,7,8],
+            [1,2,3,4,5,6,9,8],
+            [1,2,9,4,5,6,7,8],
+            [1,2,3,4,5,6,7,8],
+            [-1,1,1,7,3],
+            [3,2,3],
+            [0,4],
+            [1],
+            []
+            ];
+ 
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Input: arr: ",bigArr[i]);
+            skylineHeights(bigArr[i]);
+            console.log("Output: arr: ",bigArr[i]);
+          }
+
+
+
+
+
+
+        })
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

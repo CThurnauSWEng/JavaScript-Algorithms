@@ -1,0 +1,431 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          console.log("Algorithms:  Coding Dojo book pp. 28, 29, 30");
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Given a number, return the sum of all positive integers up to and including that number")
+
+          function sigma(num){
+            if (num < 0 || !num){
+              console.log("Invalid input. Input parameter must be a positive number")
+              return false;
+            }
+            var sum = 0;
+            for (var i = 0; i <= num; i++){
+              sum += i;
+            }
+            return sum;
+          }
+
+          // test it
+          console.log("num: ", 3, " sigma: ", sigma(3));
+          console.log("num: ", 4, " sigma: ", sigma(4));
+          console.log("num: ", 5, " sigma: ", sigma(5));
+          console.log("num: ", 1, " sigma: ", sigma(1));
+          console.log("num: ", 0, " sigma: ", sigma(0));
+          console.log("num: ", -1, " sigma: ", sigma(-1));
+          console.log("num:  sigma: ", sigma());
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Factorial. e.g. factorial(3) = 1 * 2 * 3 = 6")
+
+          function factorial(num){
+            var factorial = 1;
+            if (num == 0){
+              return 0;
+            } else if (num < 0 || !num){
+              console.log("Invalid input: ",num," Input parameter must be a positive number")
+              return false;
+            }
+            for (var i = 1; i <= num; i++){
+              factorial *= i;
+            }
+            return factorial;
+          }
+
+          console.log("num: ", 3, " factorial: ", factorial(3));
+          console.log("num: ", 4, " factorial: ", factorial(4));
+          console.log("num: ", 5, " factorial: ", factorial(5));
+          console.log("num: ", 0, " factorial: ", factorial(0));
+          console.log("num: ", -1, " factorial: ", factorial(-1));
+          console.log("num:  factorial: ", factorial());
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Stay tuned for Star Art");
+          console.log("draw left stars prints the requested number of stars left justified")
+
+          function drawLeftStars(num){
+            str = '';
+            for (var i = 0; i <= num; i++){
+              str += "*";
+            }
+            console.log(str);
+          }
+          // test it
+          console.log("5 stars");
+          drawLeftStars(5);
+          console.log("50 stars");
+          drawLeftStars(50);
+
+          console.log("draw right justified stars - last num out of 75 are stars");
+          function drawRightStars(numStars){
+            str = '';
+            var numSpaces = 75 - numStars;
+            for (var i = 1; i <= numSpaces; i++){
+              str += " ";
+            }
+            for (var i = 1; i <= numStars; i++){
+              str += "*";
+            }
+            console.log(str);
+          }
+
+          // test it
+          console.log("5 stars");
+          drawRightStars(5);
+          console.log("50 stars");
+          drawRightStars(50);
+          console.log("75 stars");
+          drawRightStars(75);
+
+          console.log("draw centered stars");
+          function drawCenteredStars(numStars){
+            var numSpaces = 75 - numStars;
+            var numRightSpaces = Math.ceil(numSpaces/2);
+            str = '';
+            for (var i = 1; i <= numRightSpaces; i++){
+              str += " ";
+            }
+            for (var i = 1; i <= numStars; i++){
+              str += "*";
+            }
+            console.log(str);          
+          }
+    
+          // test it
+          console.log("5 stars");
+          drawCenteredStars(5);
+          console.log("50 stars");
+          drawCenteredStars(50);
+          console.log("75 stars");
+          drawCenteredStars(75);
+          console.log("73 stars");
+          drawCenteredStars(73);
+          console.log("72 stars");
+          drawCenteredStars(72);
+          console.log("71 stars");
+          drawCenteredStars(71);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Character Art");
+          console.log("Left Justified");
+
+          function drawLeftChars(num,char){
+            str = '';
+            for (var i = 0; i <= num; i++){
+              str += char;
+            }
+            console.log(str);
+          }
+          // test it
+          console.log("5 &");
+          drawLeftChars(5,'&');
+          console.log("50 $");
+          drawLeftChars(50,'$');
+
+          console.log("draw right justified chars - last num out of 75 are chars");
+          function drawRightChars(numChars,char){
+            str = '';
+            var numSpaces = 75 - numChars;
+            for (var i = 1; i <= numSpaces; i++){
+              str += " ";
+            }
+            for (var i = 1; i <= numChars; i++){
+              str += char;
+            }
+            console.log(str);
+          }
+
+          // test it
+          console.log("5 @");
+          drawRightChars(5,'@');
+          console.log("50 !");
+          drawRightChars(50, '!');
+          console.log("75 ^");
+          drawRightChars(75,'^');
+
+          console.log("draw centered chars");
+          function drawCenteredChars(numChars,char){
+            var numSpaces = 75 - numChars;
+            var numRightSpaces = Math.ceil(numSpaces/2);
+            str = '';
+            for (var i = 1; i <= numRightSpaces; i++){
+              str += " ";
+            }
+            for (var i = 1; i <= numChars; i++){
+              str += char;
+            }
+            console.log(str);          
+          }
+    
+          // test it
+          console.log("5 ?");
+          drawCenteredChars(5,'?');
+          console.log("50 :");
+          drawCenteredChars(50,':');
+          console.log("75 +");
+          drawCenteredChars(75,'+');
+          console.log("73 =");
+          drawCenteredChars(73,'=');
+          console.log("72 /");
+          drawCenteredChars(72,'/');
+          console.log("71 }");
+          drawCenteredChars(71,'}');
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("threesFives adds value between a range if that value is divisible by 3 or 5, but not both")
+
+          function threesFives(start,end){
+            var sum = 0;
+            for (i = start; i <= end; i++){
+              if ((i % 3 == 0) || (i % 5 == 0)){   // value is divisible by either 3 or 5
+                if (!(i % 3 == 0 && i % 5 == 0)){  // but not both
+                  console.log("Will use the value: ", i);
+                  sum += i;
+                }
+              }
+            }
+            console.log("********** sum: ", sum);
+          }
+
+          threesFives(3,5);
+          threesFives(10,14);
+          threesFives(1,20);
+          threesFives(4,44);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Coin change");
+
+          function generateCoinChange(cents){
+            var halfDollars = 0;
+            var quarters = 0;
+            var dimes = 0;
+            var nickels = 0;
+            var pennies = 0;
+
+            halfDollars = cents / 50;
+            quarters = cents % 50 / 25;      // cents % 50 removes the halfDollars from the cents/25
+            // next line could be written dimes = cents % 50 % 25 / 10, but 50 % 25 == 0, so not neede
+            dimes    = cents % 25 / 10;      // cents % 25 removes the quarters from the equation
+            nickels  = cents % 25 % 10 / 5;  // remove the dimes too
+            // next line could be written pennies = cents % 50 %25 %10 % 5
+            pennies  = cents % 5;            // don't need other % in here because they collapse 
+                                             // e.g. 10 % 5  = 0
+          
+            console.log(" for ", cents, " cents, the fewest coins required would be ",
+                                      Math.floor(halfDollars), "half dollars",
+                                      Math.floor(quarters)," quarters ",
+                                      Math.floor(dimes),   " dimes",
+                                      Math.floor(nickels), " nickels and ",
+                                      Math.floor(pennies), " pennies");
+
+          }
+          generateCoinChange(42);
+          generateCoinChange(56);
+          generateCoinChange(83);
+          generateCoinChange(183);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Messy math return sum of all integers from 0 to the given num, except:");
+          console.log("1. If current counter is evenly divisible by 3 - don't add to sum");
+          console.log("2. If current counter is evenly divisible by 7 - includ it twice in the sum");
+          console.log("3. Regardless of the above, if the current counter is exactly 1/3 of num, return 01 immediately");
+
+          function messyMath (num){
+            var sum = 0;
+            var thirdOfi = 0;
+            for (var i = 0; i <= num; i++){
+              if (num/3 == i){
+                console.log(num/3);   // interesting that num/3 returns an integer
+                return -1;
+              }
+              if (i % 3 == 0){
+                continue;
+              }
+              if (i % 7 == 0){
+                sum += 2 * i;
+              } else{
+                sum += i;
+              }
+            }
+            return sum;
+          }
+
+          // test it
+          console.log(" for num= ", 4, " the answer is ",messyMath(4));
+          console.log(" for num= ", 8, " the answer is ",messyMath(8));
+          console.log(" for num= ", 15, " the answer is ",messyMath(15));
+          console.log(" for num= ", 21, " the answer is ",messyMath(15));
+        
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Twelve bar blues. log 1, then 'chick', then 'boom', then 'chick', repeat for each num up to 12");
+
+          function twelveBarBlues(){
+            for (var i = 1; i <= 12; i++){
+              console.log(i);
+              console.log("chick");
+              console.log("boom");
+              console.log("chick");
+            }
+          }
+
+          // test it
+          twelveBarBlues();
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Fibonacci -each number is the sum of the previous two. Start at 0. Param is # of iterations");
+
+          function fibonacci(lastNum){
+            if (lastNum == 0){
+              return 0;         // this is "given"
+            }
+            if (lastNum == 1){
+              return 1;         // this is "given"
+            }
+            // set up to start at 2
+            var prev2 = 0;
+            var prev1 = 1;
+
+            for (var i = 2; i <= lastNum; i++){
+              sum = prev1 + prev2;
+              prev2 = prev1;
+              prev1 = sum;
+            }
+            return sum;
+          }
+
+          //test it
+          for (var i = 0; i <= 9; i++){
+            console.log("Fibonacci("+i+"): ",fibonacci(i));
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Sum to one: repeatedly sum the digits of the given number until the sum only has one number, then return that number")
+
+
+          function sumToOne(num){
+            var numStr = num.toString();              // convert num to a string so we can get individual digits
+            var digit = 0;
+            var sum = 0;
+            var done = false;
+
+            while (!done){
+              for (var i = 0; i < numStr.length; i++){
+                digit = Number(numStr[i]);
+                sum += digit;
+              }
+              if (sum < 10){
+                done = true;
+              } else {
+                numStr = sum.toString();
+                sum = 0;
+              }
+           }
+            return sum;
+          }
+
+          // test it
+          console.log(sumToOne(928));
+          console.log(sumToOne(854));
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Clock Hand Angles: given an input parameter of seconds, return the hour,minute, and second hand positions");
+
+          // start out similar to coinchange, then once the seconds have been converts to hours, minutes
+          // and seconds, convert each of those to clock handle positions (i.e. degrees)
+          
+          function clockHandAngles(secondsIn) {
+            var hours = 0;
+            var minutes = 0;
+            var seconds = 0;
+
+            //if more than 12 hours worth of seconds, throw that excess out
+            secondsIn = secondsIn % (60 * 60 * 12);  //60 sec/min, 60 min/hr, 12 hr/clock cycle
+
+            hours = secondsIn / 3600;         // 3600 seconds in an hour
+            minutes = (secondsIn % 3600) / 60;  // % 60 removes the full hours' worth of seconds
+            seconds = secondsIn % 60 % 60;
+
+            console.log("hours: ",hours, " ,minutes: ", minutes, " ,seconds: ", seconds);
+
+            // now convert to angles
+            var hourDegrees = 360/12 * hours;           //12 hours in 360 degrees (hour hand takes 12 hours to go 360 degrees)
+            var minuteDegrees = 360/60 * minutes;       //60 minutes in 360 degrees (minute hand takes 60 minutes to go 360 degrees)
+            var secondDegrees = 360/60 * seconds;       //60 seconds in 360 degrees (second hand takes 60 seconds to go 360 degrees)
+
+            console.log("Hour hand degrees: ",hourDegrees);
+            console.log("Minute hand degrees: ",minuteDegrees);
+            console.log("Second hand degrees: ",secondDegrees);
+
+          }
+
+          // test it
+          // make a number up incrementally so that it will be easy to see if the program is working
+          var secondsIn =        (4 * 3600) + (15 * 60) + 23;
+          console.log("ans s/b:   4 hours     15 minutes  23 seconds");
+          clockHandAngles(secondsIn);
+          var secondsIn =        (2 * 3600) + (9 * 60) + 59;
+          console.log("ans s/b:   2 hours     9 minutes  59 seconds");
+          clockHandAngles(secondsIn);
+          console.log("ans s/b: 1 hour, 0 minutes, 0 seconds and hour: 30 degs, minute: 0 deg, seconds: 0 deg ")
+          clockHandAngles(3600);
+          console.log("ans s/b: 9 hour, 15 minutes, 30 seconds and hour: 277.745 degs, minute: 93 deg, seconds: 180 deg ")
+          clockHandAngles(119730);
+  
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Return whether a given integer is prime");
+
+          function isPrime(num){
+            // start dividing (using % on) the number by every number from 2 until that number
+            // (not including 1 or that number)
+            // if it ever has a zero remainder, then the number is NOT prime
+
+            for(var i = 2; i < num; i++){
+              if (num % i == 0){
+                return false;     //evenly divisible by i, therefore not a prime
+              }
+            }
+            return true; // will only get here if none of the % operations indicated that it was evenly divisible by i
+          }
+
+          // test it
+          for (var i = 0; i < 50; i++){
+            var prime = isPrime(i);
+            if(prime) {
+              console.log(i," is PRIME!!");
+            } else {
+              console.log(i," is NOT prime");
+            }
+          }
+
+
+
+
+
+
+
+
+
+
+        })
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

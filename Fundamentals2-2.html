@@ -1,0 +1,468 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Fundamentals 2-2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          console.log("Algorithms: Coding Dojo book pp 31-33 ");
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Sweat Shirt Pricing. 1 costs $20, 2 get 9% discount, 3 get 19% discount, 4 or more 35% discount")
+
+          function sweatShirtPricing(num){
+            // num is the number of sweatshirts being bought
+            var discount = 0;
+            if (num == 2){
+              discount = 0.09;
+            } else if (num == 3){
+              discount = 0.19;
+            } else if (num >= 4){
+              discount = 0.35;
+            }
+            var costEach = 20 - (20 * discount);
+            console.log("costEach: ",costEach);
+
+            return costEach * num;
+          }
+
+          console.log("Price of 1: ",sweatShirtPricing(1));
+          console.log("Price of 2: ",sweatShirtPricing(2));
+          console.log("Price of 3: ",sweatShirtPricing(3));
+          console.log("Price of 4: ",sweatShirtPricing(4));
+          console.log("Price of 5: ",sweatShirtPricing(5));
+
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Clock Hand Angles: given an input parameter of seconds, return the hour,minute, and second hand positions");
+          console.log("'Revisited version: allow fractional valus for seconds, but print only integers")
+
+          // start out similar to coinchange, then once the seconds have been converts to hours, minutes
+          // and seconds, convert each of those to clock handle positions (i.e. degrees)
+          
+          function clockHandAngles(secondsIn) {
+            var hours = 0;
+            var minutes = 0;
+            var seconds = 0;
+
+            //if more than 12 hours worth of seconds, throw that excess out
+            secondsIn = secondsIn % (60 * 60 * 12);  //60 sec/min, 60 min/hr, 12 hr/clock cycle
+
+            hours = secondsIn / 3600;         // 3600 seconds in an hour
+            minutes = (secondsIn % 3600) / 60;  // % 60 removes the full hours' worth of seconds
+            seconds = secondsIn % 60 % 60;
+
+            console.log("hours: ",hours, " ,minutes: ", minutes, " ,seconds: ", seconds);
+
+            // now convert to angles
+            var hourDegrees = 360/12 * hours;           //12 hours in 360 degrees (hour hand takes 12 hours to go 360 degrees)
+            var minuteDegrees = 360/60 * minutes;       //60 minutes in 360 degrees (minute hand takes 60 minutes to go 360 degrees)
+            var secondDegrees = 360/60 * seconds;       //60 seconds in 360 degrees (second hand takes 60 seconds to go 360 degrees)
+
+            console.log("Hour hand degrees: ",Math.trunc(hourDegrees));
+            console.log("Minute hand degrees: ",Math.trunc(minuteDegrees));
+            console.log("Second hand degrees: ",Math.trunc(secondDegrees));
+
+          }
+
+          // test it
+          // make a number up incrementally so that it will be easy to see if the program is working
+          var secondsIn =        (4 * 3600) + (15 * 60) + 23.7;
+          console.log("ans s/b:   4 hours     15 minutes  23 seconds");
+          clockHandAngles(secondsIn);
+          var secondsIn =        (2 * 3600) + (9 * 60) + 59.6;  
+          // Gotcha case. Should round up to 10 minutes.
+          // Would need some special code here for this, but for now just truncating ;)
+          console.log("ans s/b:   2 hours     9 minutes  59 seconds");
+          clockHandAngles(secondsIn);
+          console.log("ans s/b: 1 hour, 0 minutes, 0 seconds and hour: 30 degs, minute: 0 deg, seconds: 0 deg ")
+          clockHandAngles(3600);
+          console.log("ans s/b: 9 hour, 15 minutes, 30 seconds and hour: 277.745 degs, minute: 93 deg, seconds: 180 deg ")
+          clockHandAngles(119730);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Extract-o-matic (Version 1)");
+          console.log("Given a number and a digit, extract the value of that digit");
+          console.log("digit: 0='ones digit', 1='tens digit', 2='hundreds', etc.");
+          // e.g. extract the hundreds digit like this: Math.floor(myBigNum /100) % 10
+
+          function extractDigit1(num,digitNum){
+            // first figure out what we want to divide by based on the digitNum:
+            //        1=>1, 2=>10, 3=>100, 4=>1000, etc.
+            // Math.pow(10,2) returns 10 to the second power, i.e. 100
+            // So, here we will use Math.pow(10, (digitNum+1)) to get the divisor
+
+            var divisor = Math.pow(10, (digitNum));
+
+            if (divisor > num){
+              console.log("number not as big as digit requested");
+              return 0;
+            }
+
+            // now can use this to shift the decimal point to where we want it
+            // e.g. if we want the '7' in '32768', we can divide by 100 to get '327', 
+            // remove the decimal leftovers using Math.floor and then get the '7' by
+            // using % 10. Whew.
+
+            var shiftedNum = Math.floor(num / divisor);
+
+            return (shiftedNum % 10);
+
+          }
+
+          // test it
+          console.log("input => num: 1824, digit: 2 output => ",extractDigit1(1824,2));
+          console.log("input => num: 1824, digit: 1 output => ",extractDigit1(1824,1));
+          console.log("input => num: 1824, digit: 0 output => ",extractDigit1(1824,0));
+          console.log("input => num: 1824, digit: 7 output => ",extractDigit1(1824,7));
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Extract-o-matic (Version 2)");
+          console.log("Make it work for negative digitNum values. e.g. -1 gives tenths digit");
+          // orginal version works with no change needed:
+
+          console.log("input => num: 1824, digit: 3 output => ",extractDigit1(1824,3));
+          console.log("input => num: 1824, digit: 2 output => ",extractDigit1(1824,2));
+          console.log("input => num: 1824, digit: 1 output => ",extractDigit1(1824,1));
+          console.log("input => num: 1824, digit: 0 output => ",extractDigit1(1824,0));
+          console.log("input => num: 1824, digit: 7 output => ",extractDigit1(1824,7));
+          console.log("input => num: 1824.5678, digit: -1 output => ",extractDigit1(1824.5678,-1));
+          console.log("input => num: 1824.5678, digit: -2 output => ",extractDigit1(1824.5678,-2));
+          console.log("input => num: 1824.5678, digit: -3 output => ",extractDigit1(1824.5678,-3));
+          console.log("input => num: 1824.5678, digit: -4 output => ",extractDigit1(1824.5678,-4));
+          console.log("input => num: 1824.5678, digit: -7 output => ",extractDigit1(1824.5678,-7));
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Extract-o-matic (Version 3)");
+          console.log("Make it work for negative num values.");
+
+          function extractDigit2(num,digitNum){
+            // first figure out what we want to divide by based on the digitNum:
+            //        1=>1, 2=>10, 3=>100, 4=>1000, etc.
+            // Math.pow(10,2) returns 10 to the second power, i.e. 100
+            // So, here we will use Math.pow(10, (digitNum+1)) to get the divisor
+
+            // if the input value is negative, then change it to positive.
+            // use a local variable from here on out for num, so that we don't
+            // affect the input parameter
+
+            var thisNum = Math.abs(num);
+
+            var divisor = Math.pow(10, (digitNum));
+
+            if (divisor > thisNum){
+              console.log("magnitude of number is not as big as digit requested");
+              return 0;
+            }
+
+            // now can use this to shift the decimal point to where we want it
+            // e.g. if we want the '7' in '32768', we can divide by 100 to get '327', 
+            // remove the decimal leftovers using Math.trunc and then get the '7' by
+            // using % 10. Whew.
+
+            var shiftedNum = Math.trunc(thisNum / divisor);
+
+            return (shiftedNum % 10);
+
+          }
+
+          // test it
+          console.log("input => num: -1824, digit: 3 output => ",extractDigit2(-1824,3));
+          console.log("input => num: -1824, digit: 2 output => ",extractDigit2(-1824,2));
+          console.log("input => num: -1824, digit: 1 output => ",extractDigit2(-1824,1));
+          console.log("input => num: -1824, digit: 0 output => ",extractDigit2(-1824,0));
+          console.log("input => num: -1824, digit: 7 output => ",extractDigit2(-1824,7));
+          console.log("input => num: -1824.5678, digit: -1 output => ",extractDigit2(-1824.5678,-1));
+          console.log("input => num: -1824.5678, digit: -2 output => ",extractDigit2(-1824.5678,-2));
+          console.log("input => num: -1824.5678, digit: -3 output => ",extractDigit2(-1824.5678,-3));
+          console.log("input => num: -1824.5678, digit: -4 output => ",extractDigit2(-1824.5678,-4));
+          console.log("input => num: -1824.5678, digit: -7 output => ",extractDigit2(-1824.5678,-7));
+
+          // does it still work for the positive numbers? better check...
+
+          console.log("input => num: 1824, digit: 3 output => ",extractDigit2(1824,3));
+          console.log("input => num: 1824, digit: 2 output => ",extractDigit2(1824,2));
+          console.log("input => num: 1824, digit: 1 output => ",extractDigit2(1824,1));
+          console.log("input => num: 1824, digit: 0 output => ",extractDigit2(1824,0));
+          console.log("input => num: 1824, digit: 7 output => ",extractDigit2(1824,7));
+          console.log("input => num: 1824.5678, digit: -1 output => ",extractDigit2(1824.5678,-1));
+          console.log("input => num: 1824.5678, digit: -2 output => ",extractDigit2(1824.5678,-2));
+          console.log("input => num: 1824.5678, digit: -3 output => ",extractDigit2(1824.5678,-3));
+          console.log("input => num: 1824.5678, digit: -4 output => ",extractDigit2(1824.5678,-4));
+          console.log("input => num: 1824.5678, digit: -7 output => ",extractDigit2(1824.5678,-7));
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Extract and return the Most Significant Digit in a number");
+
+          function mostSignificantDigit(num){
+            // this will work for both positive and negative numbers if we copy
+            // the input parameter into a local variable and then make it positive
+
+            var thisNum = Math.abs(num);
+            if (thisNum > 1){
+              while (thisNum > 10){
+                thisNum = thisNum / 10;
+              }
+            } 
+            else {  // this number is less than 1
+              while (thisNum < 1){
+                thisNum = thisNum * 10;
+              }
+            }
+            return Math.floor(thisNum % 10);
+          }
+
+          // test it
+          console.log("Most significant digit of 1824 is: ",mostSignificantDigit(1824));
+          console.log("Most significant digit of  824 is: ",mostSignificantDigit(824));
+          console.log("Most significant digit of 31824 is: ",mostSignificantDigit(31824));
+          console.log("Most significant digit of 24 is: ",mostSignificantDigit(24));
+          console.log("Most significant digit of 5 is: ",mostSignificantDigit(5));
+          console.log("Most significant digit of 0.1824 is: ",mostSignificantDigit(0.1824));
+          console.log("Most significant digit of 0.00824 is: ",mostSignificantDigit(0.00824));
+          console.log("Most significant digit of 0.000031824 is: ",mostSignificantDigit(0.000031824));
+          console.log("Most significant digit of 0.24 is: ",mostSignificantDigit(0.24));
+          console.log("Most significant digit of 0.05 is: ",mostSignificantDigit(0.05));
+
+          // test negative numbers too
+          console.log("Most significant digit of -1824 is: ",mostSignificantDigit(-1824));
+          console.log("Most significant digit of  -824 is: ",mostSignificantDigit(-824));
+          console.log("Most significant digit of -31824 is: ",mostSignificantDigit(-31824));
+          console.log("Most significant digit of -24 is: ",mostSignificantDigit(-24));
+          console.log("Most significant digit of -5 is: ",mostSignificantDigit(-5));
+          console.log("Most significant digit of -0.1824 is: ",mostSignificantDigit(-0.1824));
+          console.log("Most significant digit of -0.00824 is: ",mostSignificantDigit(-0.00824));
+          console.log("Most significant digit of -0.000031824 is: ",mostSignificantDigit(-0.000031824));
+          console.log("Most significant digit of -0.24 is: ",mostSignificantDigit(-0.24));
+          console.log("Most significant digit of -0.05 is: ",mostSignificantDigit(-0.05));
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Gaming Fun(damentals)");
+          console.log("rollOne returns a randomly selected integer between 1 and 6 (inclusive)");
+
+          function rollOne(){
+            var num = 0;
+            num = Math.random()*6;        // will return between 0 and almost 6
+
+            // by using ceil, any rolls between 0 and 1 will yield 1, any between 5 and almost 6 will return 6                              
+            num = Math.ceil(num);         
+
+            return num;
+          }
+
+          //test it
+          var count = [0, 0, 0, 0, 0, 0, 0];  // element [0] will store any errors
+          var num = 0;
+          for (var i = 0; i < 50; i++){
+            num = rollOne();
+            for (var j = 1; j <= 6; j++){
+              if (num == j){
+                count[j]++
+              }
+            }
+            if (num < 1 || num > 6){
+              console.log("oops, got an unexpected value");
+              count[0]++;
+            }
+          }
+
+          if (count[0] > 0){
+            console.log("number of out of range errors: ", count[0]);
+          }
+          
+          for (var j = 1; j <= 6; j++){
+            console.log("count["+j+"]: ", count[j]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Play Fives - calls rollOne num times, check for lucky 5, then print the return value");
+
+          function playFives(numTimes){
+            var num = 0;
+            if (numTimes <= 0){
+              console.log("invalid input");
+              return;
+            }
+            for (var i = 1; i <= numTimes; i++){
+              num = rollOne();
+              console.log("You rolled: ", num);
+              if (num == 5){
+                console.log ("That's good luck!")
+              }
+            }
+          }
+
+          // test it
+          console.log("Play once");
+          playFives(1);
+          console.log("Play 10 times");
+          playFives(10);
+          playFives(0);
+          playFives(-1);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("playStatistics - call rollOne eight time and print lowest and highest rolls");
+
+          function playStatistics(){
+            var lowest = 6;
+            var highest = 1;
+            var rollVal = 0;
+            var numRolls = 8;
+            for (var i = 1; i <= numRolls; i++){
+              rollVal = rollOne();
+              if (rollVal > highest){
+                highest = rollVal;
+              };
+              if (rollVal < lowest){
+                lowest = rollVal;
+              }
+            }
+            console.log("highest: ", highest, "lowest", lowest);
+          }
+          
+          // test it
+          playStatistics();
+          playStatistics();
+          playStatistics();
+          playStatistics();
+          playStatistics();
+          playStatistics();
+          playStatistics();
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("playStatistics2 - add feature that prints the total sum of all eight rolls")
+
+          function playStatistics2(){
+            var lowest = 6;
+            var highest = 1;
+            var rollVal = 0;
+            var numRolls = 8;
+            var sum = 0;
+            for (var i = 1; i <= numRolls; i++){
+              rollVal = rollOne();
+              if (rollVal > highest){
+                highest = rollVal;
+              };
+              if (rollVal < lowest){
+                lowest = rollVal;
+              }
+              sum += rollVal;
+            }
+            console.log("highest: ", highest, "lowest", lowest, "sum: ", sum);
+          }
+
+          playStatistics2();
+ 
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("playStatistics3 - roll as many times as you want");
+
+          function playStatistics3(numRolls){
+
+            var lowest = 6;
+            var highest = 1;
+            var rollVal = 0;
+            var sum = 0;
+
+            if (numRolls < 1){
+              console.log("invalid input (",numRolls,") to playStatistics3");
+              return 0;
+            }
+            for (var i = 1; i <= numRolls; i++){
+              rollVal = rollOne();
+              if (rollVal > highest){
+                highest = rollVal;
+              };
+              if (rollVal < lowest){
+                lowest = rollVal;
+              }
+              sum += rollVal;
+            }
+            console.log("rolled ",numRolls, "times => highest: ", highest, "lowest", lowest, "sum: ", sum);
+          }
+
+          playStatistics3(8);
+          playStatistics3(20);
+          playStatistics3(1);
+          playStatistics3(0);
+          playStatistics3(-1);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("playStatistics4 - print the average roll");
+
+          function playStatistics4(numRolls){
+
+            var lowest = 6;
+            var highest = 1;
+            var rollVal = 0;
+            var sum = 0;
+            var avg = 0;
+
+            if (numRolls < 1){
+              console.log("invalid input (",numRolls,") to playStatistics3");
+              return 0;
+            }
+            for (var i = 1; i <= numRolls; i++){
+              rollVal = rollOne();
+              if (rollVal > highest){
+                highest = rollVal;
+              };
+              if (rollVal < lowest){
+                lowest = rollVal;
+              }
+              sum += rollVal;
+            }
+            avg = sum / numRolls;
+            console.log("rolled ",numRolls, "times => highest: ", highest, "lowest", lowest, "avg: ", avg);
+          }
+
+          playStatistics4(8);
+          playStatistics4(100);
+          playStatistics4(1);
+          playStatistics4(2);
+          playStatistics4(0);
+          playStatistics4(-1);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Claire is Where? ");
+
+
+          function reset(person){
+            person.x = 0;
+            person.y = 0;
+          }
+
+          function moveBy(xOffset, yOffset,person){
+            person.x += xOffset;
+            person.y += yOffset;
+          }
+
+          function xLocation(person){
+            return person.x;
+          }
+
+          function yLocation(person){
+            return person.y;
+          }
+
+          function distanceFromHome(person){
+            return Math.sqrt((person.x * person.x) + (person.y * person.y));
+          }
+
+          function ClaireIsWhere(){
+            var Claire = {x: 5, y: 8};
+            reset(Claire);
+            moveBy(1,-2,Claire);
+            moveBy(3,1,Claire);
+            console.log("Claire is at location x:",xLocation(Claire),",y:",yLocation(Claire));
+            console.log("Claire is ",distanceFromHome(Claire)," units away from home.")
+          }
+          ClaireIsWhere();
+
+
+        })  // closing brace for document.ready
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

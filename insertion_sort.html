@@ -1,0 +1,57 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+          console.log("Algorithms: Insertion Sort");
+          console.log("---------------------------------------------------------------------------------------------------");
+
+          // start by comparing the first two element and swap
+          // if necessary if the 2nd one is larger. 
+          // look at element '3', compare to 2nd, if 3rd is smaller,
+          // swap '3' and 2,
+          // compare to 1st, if '3' is smaller, swap '3' and 1
+
+          function insertion_sort(arr){
+            console.log(arr);
+            var temp = 0;
+            for (let j = 0; j < arr.length-1; j++){
+                let i = j;
+                while (i >= 0){
+                    if (arr[i+1] < arr[i]){
+                        temp = arr[i];
+                        arr[i] = arr[i+1];
+                        arr[i+1] = temp;
+                    }
+                    i--;
+                }
+            }
+            return arr;
+          }
+
+
+          console.log(insertion_sort([4,5,2,3,6]));
+          console.log(insertion_sort([5,4,6]));
+          console.log(insertion_sort([5,4]));
+          console.log(insertion_sort([5]));
+          console.log(insertion_sort([]));
+          console.log(insertion_sort([9,8,7,6,5]));
+          console.log(insertion_sort([1,2,3,4]));
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

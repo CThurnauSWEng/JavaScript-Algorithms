@@ -1,0 +1,333 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Date - Deserted Island</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          console.log("Algorithms: Coding Dojo Book p.34 ");
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Date, on a Deserted Island, step 1");
+
+          function weekdayName(weekdayNum){
+            // weekdayNum is a number between 1 and 7
+            switch(weekdayNum) {
+              case 1:
+                console.log("Sunday");
+                break;
+              case 2:
+                console.log("Monday");
+                break;
+              case 3:
+                console.log("Tuesday");
+                break;
+              case 4:
+                console.log("Wednesday");
+                break;
+              case 5:
+                console.log("Thursday");
+                break;
+              case 6:
+                console.log("Friday");
+                break;
+              case 7:
+                console.log("Saturday");
+                break;
+              default:
+                console.log("Oops, error in weekdayName - only accepts inputs between 1 and 7 inclusively");
+            }
+          }
+
+          // test it
+          weekdayName(7);
+          weekdayName(6);
+          weekdayName(5);
+          weekdayName(4);
+          weekdayName(3);
+          weekdayName(2);
+          weekdayName(1);
+          weekdayName(0);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Step 2 - accept numbers up to 365. 'Sunday' corresonds to 1.")
+
+          function weekdayName2(weekdayNum){
+            // weekdayNum is a number between 1 and 365
+            var tempNum = weekdayNum % 7;
+            var str = "";
+
+            switch(tempNum) {
+              case 0:
+                // input was evenly divisible by 7, so it is Saturday
+                console.log("Saturday");
+                str = "Saturday";
+                break;
+              case 1:
+                console.log("Sunday");
+                str = "Sunday";
+                break;
+              case 2:
+                console.log("Monday");
+                str = "Monday";
+                break;
+              case 3:
+                console.log("Tuesday");
+                str = "Tuesday";
+                break;
+              case 4:
+                console.log("Wednesday");
+                str = "Wednesday";
+                break;
+              case 5:
+                console.log("Thursday");
+                str = "Thursday";
+                break;
+              case 6:
+                console.log("Friday");
+                str = "Friday";
+                break;
+             default:
+                console.log("Oops, error in weekdayName - only accepts inputs between 1 and 7 inclusively");
+            }
+            return str;
+          }
+
+          // test it
+          for (var i = 1; i <= 21; i++){
+            weekdayName2(i);
+          }
+
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("step 3 - is it a week day?");
+
+          function weekdayName3(weekdayNum){
+            // weekdayNum is a number between 1 and 365
+            // this version returns the day in a string intead of logging a message
+            var tempNum = weekdayNum % 7;
+            var str = "";
+
+            switch(tempNum) {
+              case 0:
+                // input was evenly divisible by 7, so it is Saturday
+                str = "Saturday";
+                break;
+              case 1:
+                str = "Sunday";
+                break;
+              case 2:
+                str = "Monday";
+                break;
+              case 3:
+                str = "Tuesday";
+                break;
+              case 4:
+                str = "Wednesday";
+                break;
+              case 5:
+                str = "Thursday";
+                break;
+              case 6:
+                str = "Friday";
+                break;
+             default:
+                console.log("Oops, error in weekdayName - only accepts inputs between 1 and 7 inclusively");
+            }
+            return str;
+          }
+
+
+          function someDays(){
+            var str = "";
+            for (var i = 1; i <= 17; i++){
+              num = Math.random()*365;        // will return between 0 and almost 365
+              // by using ceil, any results between 0 and 1 will yield 1, any between 364 and almost 365 will return 365                              
+              num = Math.ceil(num); 
+              str = weekdayName3(num);        
+              switch(str) {
+                case "Sunday":
+                case "Saturday":
+                  console.log("It's ",str,"! Enjoy your day off");
+                  break;
+                case "Monday":
+                case "Tuesday":
+                case "Wednesday":
+                case "Thursday":
+                case "Friday":
+                  console.log("It's ",str,"! Work hard!");
+                  break;
+                default:
+                  console.log("Oops, error in someDays - value returned from weekdayName2 was ",str);
+              }
+            }
+          }
+
+          // test it
+          someDays();
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Step 4 - Month Name - convert month number to month name");
+
+          function monthName(monthNum){
+            var str = "";
+            switch(monthNum) {
+              case 1:
+                str = "January";
+                break;
+              case 2:
+                str = "February";
+                break;
+              case 3:
+                str = "March";
+                break;
+              case 4:
+                str = "April";
+                break;
+              case 5:
+                str = "May";
+                break;
+              case 6:
+                str = "June";
+                break;
+              case 7:
+                str = "July";
+                break;
+              case 8:
+                str = "August";
+                break;
+              case 9:
+                str = "September";
+                break;
+              case 10:
+                str = "October";
+                break;
+              case 11:
+                str = "November";
+                break;
+              case 12:
+                str = "December";
+                break;
+              default:
+                console.log("Oops, error in monthName function");
+            }
+            return str;
+          }
+
+          // test it
+          for (var i = 1; i <= 12; i++){
+            console.log(monthName(i));
+          }
+        console.log("---------------------------------------------------------------------------------------------------");
+        console.log("Step 5 - monthToDays - given a month number, return the number of days in the month");
+
+        function monthToDays(monthNum){
+          numDays = 99;
+          switch (monthNum) {
+            case 1:
+            case 3:
+            case 5:
+            case 7:
+            case 8:
+            case 10:
+            case 12:
+              numDays = 31;
+              break;
+            case 2:
+              numDays = 28;
+              break;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+              numDays = 30;
+              break;
+            case 0:
+            default:
+              numDays = 0;
+              console.log("Oops, invalid case in monthToDays");
+          }
+          return numDays;
+        }
+
+        // test it
+        for (var i = 0; i < 14; i++){
+          console.log("input: ",i, " output: ",monthToDays(i));
+        }
+
+        console.log("---------------------------------------------------------------------------------------------------");
+        console.log("Step 6 - dayToMonth - given day number since start of year, return the month name");
+
+        // Pseudocode:
+        // if Jan (i.e. < days in Jan), return Jan
+        // else subtract days in Jan
+        // if days < Feb, return Feb
+
+        function dayToMonth(dayNum){
+          var monthNum = 1;
+          var found = false;
+          var loopcounter = 0;
+
+          while (!found && loopcounter < 20) {
+            if (dayNum <= monthToDays(monthNum)){      // it is this month
+              return monthName(monthNum);
+            } 
+            dayNum -= monthToDays(monthNum);
+            monthNum++;
+            loopcounter++;
+          }
+          console.log("Oops, not found");
+          return 0;
+        }
+
+        // test it
+        console.log("input: 75, output: ",dayToMonth(75));
+        console.log("input: 90, output: ",dayToMonth(90));
+        console.log("input: 180, output: ",dayToMonth(180));
+        console.log("input: 364, output: ",dayToMonth(364));
+        console.log("input: 365, output: ",dayToMonth(365));
+
+        console.log("---------------------------------------------------------------------------------------------------");
+        console.log("Step 7 - Given a day number, return a full date string")
+        
+        function dayToMonth(dayNum){
+          var monthNum = 1;
+          var found = false;
+          var dateStr = "";
+          var dayName = weekdayName3(dayNum);
+          var loopCounter = 0; // insurance against infinite loop
+
+          while (loopCounter < 20) {
+            if (dayNum <= monthToDays(monthNum)){      // it is this month
+              dateStr += dayName+", "+monthName(monthNum)+" "+dayNum;
+              return dateStr;
+            } 
+            dayNum -= monthToDays(monthNum);
+            monthNum++;
+            loopCounter++;
+          }
+          console.log("Oops, not found -- in dayToMonth");
+          return 0;
+        }
+
+        //In this scenario, the first day of the new year is a Saturday, so let's make sure that the
+        //day of the week function is aligned with that.
+
+        console.log("Input: 1 ",weekdayName3(1));
+        console.log("Input: 8 ",weekdayName3(8));
+        console.log("Input: 142 ",weekdayName3(142));
+
+        console.log("Input: 75", "Date: ",dayToMonth(75));
+        console.log("Input: 142", "Date: ",dayToMonth(142));
+        
+        console.log("---------------------------------------------------------------------------------------------------");
+        console.log("Step 8 and 9 still to come....")
+
+
+        })
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+  </body>
+  </html>

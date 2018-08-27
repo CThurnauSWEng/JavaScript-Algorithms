@@ -1,0 +1,103 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+          console.log("Algorithms: Merge Sort");
+          console.log("---------------------------------------------------------------------------------------------------");
+
+        // it is given that the two input arrays are already each sorted
+
+          function merge2arrays(arr1, arr2){
+              let arrIdx1 = 0;
+              let arrIdx2 = 0;
+            //   console.log("arr1: ", arr1);
+            //   console.log("arr2: ", arr2);
+              let newArr = [];
+              if (arr1.length == 0){
+                  return arr2;
+              } else if (arr2.length == 0){
+                  return arr1;
+              }
+              while((arrIdx1 < arr1.length) &&
+                    (arrIdx2 < arr2.length)){
+                    if (arr1[arrIdx1] < arr2[arrIdx2]){
+                        newArr.push(arr1[arrIdx1]);
+                        arrIdx1++;
+                    } else if (arr1[arrIdx1] == arr2[arrIdx2]){
+                        newArr.push(arr1[arrIdx1]);
+                        arrIdx1++;
+                        newArr.push(arr2[arrIdx2]);
+                        arrIdx2++;                       
+                    } else {
+                        newArr.push(arr2[arrIdx2]);
+                        arrIdx2++;                                               
+                    }
+              }
+              // dropped out because either at end of arr1
+              // or arr2, or both, but don't know which...
+              if (arrIdx1 < arr1.length){
+                  for (var i = arrIdx1; i < arr1.length; i++){
+                    newArr.push(arr1[i]);
+                  }
+              } else if (arrIdx2 < arr2.length){
+                  for (var i = arrIdx2; i < arr2.length; i++){
+                    newArr.push(arr2[i]);
+                  }
+              }
+              return newArr;
+          }
+
+          console.log("merged: ",merge2arrays([2,3,4],[1,5,7]));
+          console.log("merged: ",merge2arrays([2,3,4,8,10,12],[1,5,7]));
+          console.log("merged: ",merge2arrays([2,3,4,8,10,12],[1,4,5,7]));
+          console.log("merged: ",merge2arrays([2,3,4],[1,5,7,9,11]));
+          console.log("merged: ",merge2arrays([2],[1,5,7]));
+          console.log("merged: ",merge2arrays([2,3,4],[1]));
+          console.log("merged: ",merge2arrays([],[1,5,7]));
+          console.log("merged: ",merge2arrays([2,4,1],[]));
+          console.log("merged: ",merge2arrays([2],[1]));
+
+
+          // ok, now merge sort is going to use merge2arrays as a helper function
+          // merge sort, will break input array in half, if the resulting
+          // halves have length greater than one, then split them in half again
+          // once the halves have lenth of one, send them to merge2arrays,
+          // then send the next pair to merge2arrays
+
+          function merge_sort(arr){
+              if (arr.length < 2){
+                  return arr;
+              }
+
+              var mid = Math.floor(arr.length/2);
+              var subLeft = merge_sort(arr.slice(0,mid));
+              var subRight = merge_sort(arr.slice(mid));
+
+              return merge2arrays(subLeft, subRight);
+          }
+
+          console.log("------ Merge Sort ------------")
+          console.log("merging: [4,5,2,3,6]", merge_sort([4,5,2,3,6]));
+          console.log("merging: [5,4,6]", merge_sort([5,4,6]));
+          console.log("merging: [5,4]", merge_sort([5,4]));
+          console.log("merging: [5]", merge_sort([5]));
+          console.log("merging: []", merge_sort([]));
+          console.log("merging: [9,8,7,6,5]", merge_sort([9,8,7,6,5]));
+          console.log("merging: [1,2,3,4]", merge_sort([1,2,3,4]));
+
+
+
+
+
+
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Fundamentals 3</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+          console.log("Algorithms:  Coding Dojo book p. 24");
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Keep the last 'num' number of array elements - discard the rest");
+
+          // for input ([ 2, 4, 6, 8, 10],3)
+          // iteration should look like:
+          // [6, 4, 6, 8, 10]           i = 0 set arr[0] to element arr.length + (i=0) - num => arr.length + 0 - 3 => arr[5-3] => arr[2] => 6
+          // [6, 8, 6, 8, 10]           i = 1 set arr[1] to element arr.length + (i=1) - num => arr.length + 1 - 3 => arr[5-2] => arr[3] => 8
+          // [6, 8, 10, 8, 10]          i = 2 set arr[2] to element arr.length + (i=2) - num => arr.length + 2 - 3 => arr[5-1] => arr[4] => 10
+          // stop when i= num -1, then change length to num
+          // [6, 8, 10]
+
+          function keepLastFew(arr, num){
+            if (num > arr.length){
+              console.log("num cannot be longer than the array length");
+              return false;
+            }
+            for (var i = 0; i <= num; i++){
+              arr[i] = arr[arr.length + i - num];
+            }
+            arr.length = num;
+          }
+
+          // test it
+          var bigArr = [
+            [ 2, 4, 6, 8, 10],
+            [1, 0, 3, -4, 5, 18],
+            [1, 2, 3, 4, -5, 18, 3],
+            [-1],
+            [1, -2],
+            [],
+            [0]
+          ];
+          var numArr = [3, 5, 7, 1, 1, 0, 1];
+
+          for (var i = 0; i < bigArr.length; i++){
+            console.log("Before: ", bigArr[i], "num: ", numArr[i]);
+            keepLastFew(bigArr[i],numArr[i]);
+            console.log("After: ", bigArr[i]);
+          }
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Math help - given M and B, return X intercept for equation Y = MX + B , i.e. when Y is zero")
+          // Y = MX + B => MX = Y - B => X = (Y - B)/M; when Y = 0, X = B/M
+
+          function mathHelp(M,B){
+            // watch out for divide by zero
+            if (M == 0){
+              console.log("invalid coefficient M");
+              return false;
+            }
+            return (-B/M);
+          }
+
+          // test it
+          console.log("X intercept for coefficients: M=2.5 and B=5 is", mathHelp(2.5,5));
+          console.log("Correct answer is X=-2. Y = MX + B => 2.5*-2 + 5 = 0");
+
+          console.log("X intercept for coefficients: M=0 and B=5 is", mathHelp(0,5));
+          console.log("Correct answer: return false and console.log invalid coefficient");
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Poor Kenny. Probablities: volcanos: 10%, tsunamis: 15%, earthquakes 20%, blizzards 25%, meteors 30%");
+
+          // Pseudocode
+          // get a random number between 0 and 1, and multiply by 100
+          // if number is between 0 and ten, then volcano
+          // if number is between eleven and 15, then tsunami, etc.
+
+          // make these counters global for testing purposes
+          var volcanoCount = 0;
+          var tsunamiCount = 0;
+          var earthquakeCount = 0;
+          var blizzardCount = 0;
+          var meteorCount = 0;
+
+          function poorKenny(){
+            var num = Math.random()*100;
+            if (num < 10){
+              console.log("num: ", num, "Volcano!");
+              volcanoCount++;
+            } else if (num < 25) {
+              console.log("num: ", num, "Tsunami!");
+              tsunamiCount++;
+            } else if (num < 45) {
+              console.log("num: ", num, "Earthquake!");
+              earthquakeCount++;
+            } else if (num < 70) {
+              console.log("num: ", num, "Blizzard!");
+              blizzardCount++;
+            } else {
+              console.log("num: ", num, "Meteor!")
+              meteorCount++;
+            }
+          }
+
+          // test it
+          for (var i = 0; i < 25; i++){
+            poorKenny();
+          }
+          console.log("Volcanos: ",volcanoCount,"Tsunamis: ", tsunamiCount, "Earthquakes: ",earthquakeCount, "Blizzards: ",blizzardCount, "Meteors: ", meteorCount);
+
+          // do it again :)
+          volcanoCount = 0;
+          tsunamiCount = 0;
+          earthquakeCount = 0;
+          blizzardCount = 0;
+          meteorCount = 0;
+
+          for (var i = 0; i < 25; i++){
+            poorKenny();
+          }
+          console.log("Volcanos: ",volcanoCount,"Tsunamis: ", tsunamiCount, "Earthquakes: ",earthquakeCount, "Blizzards: ",blizzardCount, "Meteors: ", meteorCount);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("rewrite poorKenny to not assume that a disaster will happen every day - test each disaster indedepdently");
+
+          function whatReallyHappened (day) {
+            var num = Math.random()*100;
+            // did a volcano erupt today?
+            if (num < 10){
+              console.log("num: ", num, "Volcano! on day", day);
+              volcanoCount++;
+            } 
+            num = Math.random()*100;
+            if ((num > 10) && (num < 25)) {
+              console.log("num: ", num, "Tsunami! on day", day);
+              tsunamiCount++;
+            } 
+            num = Math.random()*100;
+            if ((num > 25) && (num < 50)) {
+              console.log("num: ", num, "Earthquake! on day", day);
+              earthquakeCount++;
+            } 
+            num = Math.random()*100;
+            if ((num > 50) && (num < 70)) {
+              console.log("num: ", num, "Blizzard! on day", day);
+              blizzardCount++;
+            }
+            num = Math.random()*100;
+            if (num > 70){
+              console.log("num: ", num, "Meteor! on day", day)
+              meteorCount++;
+            }
+          }
+          // test it
+          volcanoCount = 0;
+          tsunamiCount = 0;
+          earthquakeCount = 0;
+          blizzardCount = 0;
+          meteorCount = 0;
+
+          for (var i = 0; i < 25; i++){
+            whatReallyHappened(i);
+          }
+          console.log("Volcanos: ",volcanoCount,"Tsunamis: ", tsunamiCount, "Earthquakes: ",earthquakeCount, "Blizzards: ",blizzardCount, "Meteors: ", meteorCount);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("IQ increases by .01 on day one, .02 on day two, .03 on day three...");
+
+          // day one: 101 + .01 = 101.01
+          // day two: 101 + .02 = 101.03
+          // day three: 101 + .03 = 101.06
+          // each day goes up by day number times .01
+
+          function soaringIQ() {
+            var delta = 0;
+            var IQ = 101;
+            for (var i = 1; i <= 98; i++){
+              delta = Math.round(0.01 * i *100)/100;   // round off to 2 decimal places for readability
+              IQ += delta;
+              IQ = Math.round(IQ * 100)/100;
+              console.log("day: ", i, "delta: ", delta, "IQ: ", IQ);
+            }
+          }
+
+          // test it
+          soaringIQ();
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Assign letter grades based on score");
+
+          function letterGrades(score){
+            if (score > 100){
+              console.log("invalid score: ", score);
+            } else if (score >= 90){
+              console.log("Score: ",score, "Grade: A");
+            } else if (score >= 80){
+              console.log("Score: ",score, "Grade: B");
+            } else if (score >= 70){
+              console.log("Score: ",score, "Grade: C");
+            } else if (score >= 60){
+              console.log("Score: ",score, "Grade: D");
+            } else {
+              console.log("Score: ",score, "Grade: F");
+            }
+          }
+
+          // test it
+          letterGrades(59);
+          letterGrades(60);
+          letterGrades(61);
+          letterGrades(69);
+          letterGrades(70);
+          letterGrades(71);
+          letterGrades(79);
+          letterGrades(80);
+          letterGrades(81);
+          letterGrades(89);
+          letterGrades(90);
+          letterGrades(91);
+          letterGrades(100);
+          letterGrades(101);
+
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("refine grades D-, D+, C-, C+, B-, B+, A- Use 2 % at top and bottom for criteria")
+
+          function letterGrades(score){
+            if (score > 100){
+              console.log("invalid score: ", score);
+            } else if (score >= 92){
+              console.log("Score: ",score, "Grade: A");
+            } else if (score >= 90){
+              console.log("Score: ",score, "Grade: A-");
+            } else if (score >= 88){
+              console.log("Score: ",score, "Grade: B+");
+            } else if (score >= 82){
+              console.log("Score: ",score, "Grade: B");
+            } else if (score >= 80){
+              console.log("Score: ",score, "Grade: B-");
+            } else if (score >= 78){
+              console.log("Score: ",score, "Grade: C+");
+            } else if (score >= 72){
+              console.log("Score: ",score, "Grade: C");
+            } else if (score >= 70){
+              console.log("Score: ",score, "Grade: C-");
+            } else if (score >= 68){
+              console.log("Score: ",score, "Grade: D+");
+            } else if (score >= 62){
+              console.log("Score: ",score, "Grade: D");
+            } else if (score >= 60){
+              console.log("Score: ",score, "Grade: D-");
+            } else {
+              console.log("Score: ",score, "Grade: F");
+            }
+          }
+
+          // test it
+          for (var i = 59; i <= 101; i++){
+            letterGrades(i);
+          }
+
+
+
+        })
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

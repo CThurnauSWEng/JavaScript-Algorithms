@@ -1,0 +1,70 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>
+        function genericCoinChange(changeDict, cents){
+            result = {}
+            for (var key in changeDict){
+                result[key] = 0;
+            }
+
+            while (cents > 0) {
+                var coin = getMaxCoin(changeDict, cents);
+                var num_coins = Math.floor(cents/coin.coin_val)
+                cents = cents - (num_coins * coin.coin_val)
+                result[coin.coin_type] = num_coins
+            }
+
+            return result;
+        }
+
+        function getMaxCoin(changeDict, cents){
+            max_coin_val = 0;
+            for (var key in changeDict){
+                if (changeDict[key] > max_coin_val){
+                    if (cents > changeDict[key]){
+                        max_coin_val = changeDict[key]
+                        var max_key = key;
+                    }
+                }
+            }
+            // console.log("max_key: ",max_key," max_key_value: ",changeDict[max_key])
+            coin = {'coin_type' : max_key,
+                    'coin_val'  : max_coin_val}
+            // console.log("coin: ", coin)
+
+            return coin;
+        }
+
+        legend = {
+            'dime'          : 10,
+            'quarter'       : 25,
+            'penny'         : 1,
+            'half-dollar'   : 50
+        }
+        amt = 283
+        console.log("amt: ", amt, " legend: ", legend);
+        result = genericCoinChange(legend,amt)
+        console.log("result: ", result);
+
+        legend = {
+            'dime'          : 10,
+            'quarter'       : 25,
+            'penny'         : 1,
+        }
+        amt = 283
+        console.log("amt: ", amt, " legend: ", legend);
+        result = genericCoinChange(legend,amt)
+        console.log("result: ", result);
+
+
+
+
+    </script>
+    <title>Generic Coin Change</title>
+  </head>
+  <body>
+    <p>See console for output</p>
+ </body>
+</html>

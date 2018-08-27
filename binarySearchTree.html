@@ -1,0 +1,129 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+          console.log("Algorithms:  ");
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Binary Search Tree");
+
+          class Node {
+            constructor(value){
+              this.value = value;
+              this.left = null;
+              this.right = null;
+            }
+          }
+
+          class Tree {
+            constructor(){
+              this.root = null;
+            }
+            addNode(value) {
+              let newNode = new Node(value);
+              if (this.root == null){
+                this.root = newNode;
+              } else {
+                this.insertNode(this.root, newNode);
+              }
+            }
+            insertNode(node, newNode){
+              if (newNode.value < node.value){
+                // move left
+                if (node.left === null){
+                  node.left = newNode;
+                } else {
+                  // time to recurse until we find a null left
+                  this.insertNode(node.left, newNode);
+                }
+              } else { // move right
+                if (node.right === null){
+                  node.right = newNode;
+                } else {
+                  // time to recurse until we find a null right
+                  this.insertNode(node.right, newNode);
+                }
+              }
+            }
+
+            // this one traverses the tree in order
+            printBST(node){
+              if (node != null) {
+                this.printBST(node.left);
+                console.log(node.value);
+                this.printBST(node.right);
+              }
+            }
+
+            printRootFirst(node){
+              if (node != null) {
+                console.log(node.value);
+                this.printRootFirst(node.left);
+                this.printRootFirst(node.right);
+              }
+            }
+
+            // visits the root after traversing the whole tree
+            printPostOrder(node){
+              if (node != null) {
+                this.printPostOrder(node.left);
+                this.printPostOrder(node.right);
+                console.log(node.value);
+              }
+            }
+
+            maxHeight(node){
+              if (node == null) return 0;
+              var leftHeight = this.maxHeight(node.left);
+              var rightHeight = this.maxHeight(node.right);
+              return (leftHeight > rightHeight) ? leftHeight + 1 : rightHeight + 1;
+            }
+          }
+
+          bst = new Tree();
+          bst.addNode(5);
+          console.log(bst);
+          bst.addNode(4);
+          console.log("Print whole tree in order");
+          bst.printBST(bst.root);
+          bst.addNode(10);
+          bst.addNode(9);
+          bst.addNode(1);
+          bst.addNode(12);
+          bst.addNode(100);
+          console.log("Print whole tree in order");
+          bst.printBST(bst.root);
+
+          console.log("Print the tree ROOT first");
+          bst.printRootFirst(bst.root);
+
+          console.log("Print in post order (root last")
+          bst.printPostOrder(bst.root);
+
+          console.log("The max height of the bst is ", bst.maxHeight(bst.root));
+
+          bst.addNode(200);
+          console.log("updated bst: ");
+          bst.printBST(bst.root);
+
+          console.log("The max height of the bst is now ", bst.maxHeight(bst.root));
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>

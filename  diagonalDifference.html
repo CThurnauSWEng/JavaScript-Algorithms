@@ -1,0 +1,61 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <script>
+
+
+function diagonalDifference(a) {
+    // return absolute difference between the sum of the elements in
+    // the primary and secondary diagonals
+    var sum1 = 0;
+    var result = [];
+    for (var i = 0; i < a.length; i++){
+        for (var j = 0; j < a[i].length; j++){
+            if (i == j){
+                sum1 += a[i][j];
+            }
+        }
+    }
+
+    var sum2 = 0;
+    for (var i = 0; i < a.length; i++){
+        for (var j = (a.length-1); j >= 0; j--){
+            if (j == (a.length-i-1)){
+                sum2 += a[i][j];
+            }
+        }
+    }
+    
+    return Math.abs(sum1-sum2);
+}
+
+arr = [
+    [1,2,3],
+    [1,2,3],
+    [1,2,3]
+]
+console.log(diagonalDifference(arr));
+
+arr = [
+    [11,2,4],
+    [4,5,6],
+    [10,8,-12]
+]
+console.log(diagonalDifference(arr));
+
+arr = [
+    [1,2,3,4],
+    [5,6,7,8],
+    [9,10,11,12],
+    [13,14,15,16]
+]
+console.log(diagonalDifference(arr));
+
+</script>
+<title>diagonalDifference - HR</title>
+</head>
+<body>
+<p>See console for output</p>
+</body>
+</html>
