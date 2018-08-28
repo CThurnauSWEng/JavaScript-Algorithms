@@ -19,6 +19,7 @@
           class Tree {
             constructor(){
               this.root = null;
+              this.nodeCount = 0;
             }
             addNode(value) {
               let newNode = new Node(value);
@@ -27,6 +28,7 @@
               } else {
                 this.insertNode(this.root, newNode);
               }
+              this.nodeCount++;
             }
             insertNode(node, newNode){
               if (newNode.value < node.value){
@@ -79,6 +81,26 @@
               var rightHeight = this.maxHeight(node.right);
               return (leftHeight > rightHeight) ? leftHeight + 1 : rightHeight + 1;
             }
+
+            leafCount(node){
+              // this counts the number of leaves (nodes that have no children)
+              if (node == null){
+                return 0;
+              }
+              if ((node.left == null) && (node.right == null)){
+                return 1;
+              } else {
+                return this.leafCount(node.left) + this.leafCount(node.right);
+              }
+            }
+
+            getNodeCount() {
+              return this.nodeCount;
+            }
+
+
+
+
           }
 
           bst = new Tree();
@@ -109,6 +131,8 @@
 
           console.log("The max height of the bst is now ", bst.maxHeight(bst.root));
 
+          console.log("The number of leaves in the bst is ", bst.leafCount(bst.root));
+          console.log("The number of nodes in the bst is ", bst.getNodeCount());
 
 
 
