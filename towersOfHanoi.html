@@ -1,0 +1,151 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+          console.log("Algorithms:  ");
+          console.log("---------------------------------------------------------------------------------------------------");
+          console.log("Towers of Hanoi");
+
+
+          class Tower {
+            // Note: a "tower" is just a stack (LIFO)
+            constructor(){
+              this.container = [];
+            }
+
+            push(value){
+                this.container.push(value);
+            }
+
+            pop(value){
+                return this.container.pop(value);
+            }
+
+            printStack(){
+                for (var i = 0; i < this.container.length; i++){
+                    console.log(this.container[i]);
+                }
+            }
+
+            checkStack(){
+                var result = true;
+                for (var i = 0; i < this.container.length-1; i++){
+                    if (this.container[i] < this.container[i+1]){
+                        result = false;
+                    }
+                }
+                return result;
+            }
+
+          }
+
+          tower1 = new Tower();
+          tower2 = new Tower();
+          tower3 = new Tower();
+
+          // initializing tower1
+          console.log("tower1: ")
+          tower1.push(3);
+          tower1.push(2);
+          tower1.push(1);
+          tower1.printStack();
+          console.log("tower1 status: ", tower1.checkStack());
+
+          //game - move all values to tower 2, utilizing tower 3 as needed
+          //can never put a larger value "on top" of a smaller value
+          //so printStack should always show values in reverse order
+
+          //start by doing simple scenario by hand
+
+          console.log("------ step 1 ---------")
+
+          tower2.push(tower1.pop()); // move "1" from tower1 to tower3
+          tower3.push(tower1.pop()); // move "2" from tower1 to tower2
+
+          printAndCheckAllTowers(tower1, tower2, tower3);
+
+          console.log("------ step 2 ---------")
+
+          tower3.push(tower2.pop());
+          tower2.push(tower1.pop());
+
+          printAndCheckAllTowers(tower1, tower2, tower3);
+
+          console.log("------ step 3 ---------")
+
+          tower1.push(tower3.pop());
+
+          printAndCheckAllTowers(tower1, tower2, tower3);
+
+          console.log("------ step 4 ---------")
+
+
+          tower2.push(tower3.pop());
+          tower2.push(tower1.pop());
+
+          printAndCheckAllTowers(tower1, tower2, tower3);
+
+          // Ok, that works, now let's implement it recursively
+          // (credit for the following: "Classic Computer Science Problems in Python - by David Kopec")
+          // the base case is moving one disc
+          // the recursive case is movind all of the other discs using the
+          // third tower like we did by hand above
+
+          // recursive steps:
+          // 1. Move the upper n-1 discs from first tower to temp tower using final tower as the 
+          //    in-between tower
+          // 2. Move the single lowest disc from first tower to final tower
+          // 3. Move the n-1 discs from temp tower to final tower
+
+          firstTower = new Tower();
+          tempTower  = new Tower();
+          finalTower = new Tower();
+
+          function hanoi(firstTower, finalTower, tempTower, num){
+              if (num == 1){
+                  finalTower.push(firstTower.pop());
+              } else {
+                  hanoi(firstTower, tempTower, finalTower, num - 1);
+                  hanoi(firstTower, finalTower, tempTower, 1);
+                  hanoi(tempTower, finalTower, firstTower, num - 1);
+              }
+          }
+
+          firstTower.push(6);
+          firstTower.push(5);
+          firstTower.push(4);
+
+          console.log("Initial conditions");
+          printAndCheckAllTowers(firstTower, tempTower, finalTower);
+
+          hanoi(firstTower, finalTower, tempTower, 3);
+
+          console.log("Final result")
+          printAndCheckAllTowers(firstTower, tempTower, finalTower);
+
+          function printAndCheckAllTowers(tower1, tower2, tower3){
+            console.log("tower1:");
+            tower1.printStack();
+
+            console.log("tower2:");
+            tower2.printStack();
+
+            console.log("tower3:");
+            tower3.printStack();
+
+            console.log("tower1 status: ", tower1.checkStack());
+            console.log("tower2 status: ", tower2.checkStack());
+            console.log("tower3 status: ", tower3.checkStack());
+          }
+
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>
