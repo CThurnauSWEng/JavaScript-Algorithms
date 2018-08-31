@@ -1,0 +1,35 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+        console.log("Algorithms: Compute pi  ");
+        console.log("---------------------------------------------------------------------------------------------------");
+
+        function pi(digits){
+            var den = 1;
+            var sign = 1;
+            var pi = 0;
+
+            for (var i = 0; i < digits; i++){
+                pi += sign * 4/den;
+                den = den + 2;
+                sign *= -1;
+            }
+            
+            return pi;
+
+        }
+
+        console.log("pi using 10 iterations: ", pi(500000));
+        // note to self: fascinating that it takes 500,000 iterations to get to 3.14159
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>
