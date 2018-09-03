@@ -23,8 +23,7 @@
             }
         }
 
-        SLL.prototype.addNode = function(value){
-            // This function adds a node to the end of the list
+        SLL.prototype.addNodeToEnd = function(value){
             var node = new Node(value);
             if (this.head == null){
                 this.head = node;
@@ -48,19 +47,174 @@
             }
         }
 
+        SLL.prototype.deleteByValue = function(value){
+            // this has a bug - given 9, 11, 13 and asked to delete 13,
+            // the 13 is not deleted
+            if (this.head == null){
+                return;
+            } else if (this.head.value == value){
+                var temp = this.head.next;
+                this.head.next = null; // flag memory to be reclaimed
+                this.head = temp;
+            } else if (this.head.next == null){
+                // only one value an it was not the one
+                return;
+            } else {
+                var runner = this.head.next;
+                var prev = this.head;
+                while(runner != null){
+                    if (runner.value == value){
+                        prev.next = runner.next;
+                        runner.next = null; // flag memory to be reclaimed
+                        break;
+                    }
+                    prev = runner;
+                    runner = runner.next;
+                }
+            }
+        }
+
+        // CTCI Chapter 2 Interview Questions
+
+        // 2.1
+
+        // 1st version using a temporary data structure
+        SLL.prototype.removeDups1 = function(){
+            var runner = this.head;
+            var obj = {};
+            while (runner != null){
+                var result = obj[runner.value];
+                if (result === undefined){
+                    obj[runner.value] = "present";
+                } else {
+                    // this value is a dup
+                    sll.deleteByValue(runner.value);
+                }
+                runner = runner.next;
+            }
+        }
+
+        // 2nd version uses two runners instead of a temporary
+        // data structure
+        SLL.prototype.removeDups2 = function(){
+            // fast exit if no nodes or only one node on list
+            if ((this.head != null) && (this.head.next != null)){
+                var runner1 = this.head;
+                var runner2 = this.head.next;
+                // runner2 traverses the whole list checking value
+                // against runner1 value, then runner1 advances and
+                // runner2 starts there and goes all the way through
+                
+                while(runner1 != null){
+                    while(runner2 != null){
+                        if (runner1.value == runner2.value){
+                            console.log("deleting ", runner2.value);
+                            sll.deleteByValue(runner2.value);
+                        }
+                        runner2 = runner2.next;
+                    }
+                    runner1 = runner1.next;
+                    if (runner1 == null){
+                        break;
+                    } else {
+                        runner2 = runner1.next;
+                    }
+                }   
+            }
+        }
+
+
         var sll = new SLL();
 
         // Test cases:
 
-        sll.addNode(3);
-        sll.addNode(5);
+        sll.addNodeToEnd(3);
+        sll.addNodeToEnd(5);
 
         console.log("Current list should be 3,5");
         sll.printList();
 
-        sll.addNode(7);
+        sll.addNodeToEnd(7);
         console.log("Current list should be 3,5,7");
         sll.printList();
+
+
+        // test deleting from the middle
+        sll.deleteByValue(5);
+        console.log("Current list should be 3,7");
+        sll.printList();
+
+        // test deleting from the front
+        sll.deleteByValue(3);
+        console.log("Current list should be 7");
+        sll.printList();
+
+        // test deleting when there is only one value
+        sll.deleteByValue(7);
+        console.log("Should have an empty list");
+        sll.printList();
+        
+        // test deleting second to last node
+        sll.addNodeToEnd(11);
+        sll.addNodeToEnd(9);
+        sll.addNodeToEnd(9);
+        sll.addNodeToEnd(7);
+        console.log("Current List should be 11, 9, 9, 7");
+        sll.printList();
+        console.log("Now delete one of the 9's");
+        sll.deleteByValue(9);
+        console.log("Current List should be 11, 9, 7");
+        sll.printList();
+        
+        console.log("clearing the list");
+        sll.deleteByValue(11);
+        sll.deleteByValue(9);
+        sll.deleteByValue(7);
+        console.log("Should have an empty list");
+        sll.printList();
+
+
+
+        sll.addNodeToEnd(9);
+        sll.addNodeToEnd(11);
+        sll.addNodeToEnd(13);
+        console.log("Reloaded the list with 9, 11,13");
+        sll.printList();
+
+        console.log("test deleting from the end when there are multiple values - remove the 13");
+        sll.deleteByValue(13);
+        console.log("Current list should be 9, 11");
+        sll.printList();
+        
+        console.log("test remove dups1. First, do no harm");
+        sll.removeDups1();  // should not have had any dups
+        console.log("Current list should be 9, 11");
+        sll.printList();
+
+        sll.addNodeToEnd(9);
+        console.log("Current list should be 9, 11, 9");
+        sll.printList();
+
+        sll.removeDups1();
+        console.log("Current list should be 11, 9");
+        sll.printList();
+        
+        console.log("test remove dups2. First, do no harm");
+        sll.removeDups2();  // should not have had any dups
+        console.log("Current list should be 11, 9");
+        sll.printList();
+
+        sll.addNodeToEnd(9);
+        sll.addNodeToEnd(7);
+        console.log("Current list should be 11, 9, 9, 7");
+        sll.printList();
+
+        sll.removeDups2();
+        console.log("Current list should be 11, 9, 7");
+        sll.printList();
+        
+
+
 
     </script>
   </head>
