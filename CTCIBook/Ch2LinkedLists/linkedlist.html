@@ -8,7 +8,59 @@
         console.log("Cracking the Code Interview Chapter 2 - Linked Lists");
         console.log("---------------------------------------------------------------------------------------------------");
         
-    
+        // Single Linked List
+
+        class Node{
+            constructor(value){
+                this.next  = null;
+                this.value = value;
+            }
+        }
+
+        class SLL{
+            constructor(){
+                this.head = null;
+            }
+        }
+
+        SLL.prototype.addNode = function(value){
+            // This function adds a node to the end of the list
+            var node = new Node(value);
+            if (this.head == null){
+                this.head = node;
+            } else {
+                var runner = this.head;
+                while (runner.next != null){
+                    runner = runner.next;
+                }
+                // Will reach this point when the runner is pointing at the 
+                // last node.
+                runner.next = node;
+            }
+        }  
+        
+        SLL.prototype.printList = function(){
+            console.log("*** Here is the current list: ***");
+            var runner = this.head;
+            while(runner != null){
+                console.log(runner.value);
+                runner = runner.next;
+            }
+        }
+
+        var sll = new SLL();
+
+        // Test cases:
+
+        sll.addNode(3);
+        sll.addNode(5);
+
+        console.log("Current list should be 3,5");
+        sll.printList();
+
+        sll.addNode(7);
+        console.log("Current list should be 3,5,7");
+        sll.printList();
 
     </script>
   </head>
