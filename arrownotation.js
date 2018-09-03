@@ -1,14 +1,6 @@
-<!DOCTYPE html> 
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <title>Template</title>
-    <script>
-        "use strict"
+        "use strict";
         console.log("Algorithms: Arrow notation  ");
         console.log("---------------------------------------------------------------------------------------------------");
-
-
 
         // using arrow notation
         const coffee = [1,2,3,4];
@@ -21,7 +13,7 @@
         var myObj = { digits: 1, 
                       increment: 4};
 
-        const newtest = myObj => myObj.digits + myObj.incrment;
+        const newtest = myObj => myObj.digits + myObj.increment;
 
         console.log(newtest(myObj));
 
@@ -39,9 +31,3 @@
 
 
 
-    </script>
-  </head>
-  <body>
-    <p>See Console for output</p>
- </body>
-</html>
