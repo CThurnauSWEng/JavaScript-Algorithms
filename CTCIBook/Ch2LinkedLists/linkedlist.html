@@ -36,13 +36,20 @@
                 // last node.
                 runner.next = node;
             }
-        }  
+        } 
+        
+        SLL.prototype.addNodeToFront = function(value){
+            var node = new Node(value);
+            var temp = this.head;
+            this.head = node;
+            node.next = temp;
+        }
         
         SLL.prototype.printList = function(){
             console.log("*** Here is the current list: ***");
             var runner = this.head;
             while(runner != null){
-                console.log(runner.value);
+                console.log("Value: ", runner.value);
                 runner = runner.next;
             }
         }
@@ -50,6 +57,7 @@
         SLL.prototype.deleteByValue = function(value){
             // this has a bug - given 9, 11, 13 and asked to delete 13,
             // the 13 is not deleted
+            console.log("in delete: value passed in: ", value);
             if (this.head == null){
                 return;
             } else if (this.head.value == value){
@@ -74,9 +82,17 @@
             }
         }
 
-        // CTCI Chapter 2 Interview Questions
+        SLL.prototype.clearList = function (){
+            var runner = this.head;
+            while(runner != null){
+                 var temp = runner;
+                 runner.next = null;
+                 runner = temp.next;
+            }
+            this.head = null;
+        }
 
-        // 2.1
+        // CTCI Chapter 2 Interview Questions: 2.1
 
         // 1st version using a temporary data structure
         SLL.prototype.removeDups1 = function(){
@@ -95,7 +111,7 @@
         }
 
         // 2nd version uses two runners instead of a temporary
-        // data structure
+        // data structure -- Time complexity = n squared
         SLL.prototype.removeDups2 = function(){
             // fast exit if no nodes or only one node on list
             if ((this.head != null) && (this.head.next != null)){
@@ -122,6 +138,116 @@
                 }   
             }
         }
+
+        // CTCI Chapter 2 Interview Questions: 2.2
+
+        SLL.prototype.kthToLast = function(k){
+            // Find the kth to last element in a singly linked list
+            // runner1 is initialized to point to first node
+            // runner2 is initialized to point to the kth node down
+            // the list
+            // runners are advanced in parallel until runner2 hits end
+            // runner1 will then be pointing at the kth to last
+
+            var runner1 = this.head;
+            var runner2 = this.head;
+            for (var i = 0; i < k; i++){
+                if (runner2.next != null){
+                    runner2 = runner2.next;
+                } else {
+                    return null; // list does not contain enough elements
+                }
+            }
+
+            while (runner2 != null){
+                runner1 = runner1.next;
+                runner2 = runner2.next;
+            }
+            return runner1;
+        }
+
+        // CTCI Chapter 2 Interview Questions: 2.3
+
+        // Delete Middle Node - no access to the head
+        // Approach is to copy from next node back to current etc.
+
+        SLL.prototype.removeMiddleNode= function (runner){
+            // it is invalid to call this function with the first or last nodes
+            // if called with the first node, the head would be lost because
+            // this function does not have access to the head (per the assignment)
+            // if it is called with the last node, it would not have access to the
+            // second to last node to be able to break the link
+            if (runner.next == null){
+                // input node is the last node
+                // invalid condition, cannot access the previous node
+                // to remove this one
+                console.log("invalid call to removeMiddleNode function");
+            } else {
+                while (true){
+                    runner.value = runner.next.value;
+                    if (runner.next.next == null){
+                        runner.next = null;
+                        break;
+                    } else {
+                        runner = runner.next;
+                    }
+                }
+            }
+        }
+
+        // CTCI Chapter 2 Interview Questions: 2.4
+
+        // Partition a linked list around a value x, such that all nodes less
+        // than x come before all nodes greater than x. if x is in the list
+        // it only needs to end up after the elements less than x
+
+        SLL.prototype.partition = function(value){
+            // iterate through the list
+            // put nodes with values less than the value into first new list
+            // put nodes with values equal to or greater than the value into a second new list
+            // merge the two lists
+
+            if (this.head != null){
+                var sllLow = new SLL();
+                var sllHigh = new SLL();
+
+                var runner = this.head;
+                while (runner != null){
+                    if (runner.value < value){
+                        sllLow.addNodeToEnd(runner.value);
+                    } else {
+                        sllHigh.addNodeToEnd(runner.value);
+                    }
+                    runner = runner.next;
+                }
+
+                // merge sllLow and sllHigh
+                this.head = sllLow.head;
+
+                runner = sllHigh.head;
+                while (runner != null){
+                    sllLow.addNodeToEnd(runner.value);
+                    runner = runner.next;
+                }
+                
+            }
+        }
+
+        //  CTCI Chapter 2 Interview Questions: 2.5
+
+        /*  Sum Lists: You have two numbers represented by a linked list, where
+            each node contains a single digit. The digits are stored in reverse
+            order, such that the 1's digit is at the head of the list. Write a
+            function that adds the two numbers and returns the sum as a linked list.
+
+            Example:
+            Input: ( 7 -> 1 -> 6 ) + (5 -> 9 -> 2). that is, 617 + 295 = 912, so
+            Output: 2 -> 1 -> 9
+        */
+
+        //  CTCI Chapter 2 Interview Questions: 2.6
+
+        //  Palindrome: Check if a linked list is a palindrome.
 
 
         var sll = new SLL();
@@ -185,7 +311,9 @@
         sll.deleteByValue(13);
         console.log("Current list should be 9, 11");
         sll.printList();
-        
+
+        console.log("********** 2.1 Remove Duplicates *****************");
+
         console.log("test remove dups1. First, do no harm");
         sll.removeDups1();  // should not have had any dups
         console.log("Current list should be 9, 11");
@@ -212,7 +340,67 @@
         sll.removeDups2();
         console.log("Current list should be 11, 9, 7");
         sll.printList();
+
+        console.log("********** 2.2 Return kth to Last *****************");
+        sll.clearList();
+        console.log("Current list should be empty");
+        sll.printList();
         
+        for (var i = 1; i < 8; i++){
+            sll.addNodeToEnd(i);
+        }
+
+        console.log("Current list should contain 1 thru 7");
+        sll.printList();
+
+        console.log("test kth to last - should return 5");
+        console.log(sll.kthToLast(3));
+        console.log("test kth to last - should return 4");
+        console.log(sll.kthToLast(4));
+        console.log("test kth to last - should return null");
+        console.log(sll.kthToLast(9));
+        console.log("test kth to last - should return 6");
+        console.log(sll.kthToLast(2));
+        console.log("test kth to last - should return 7");
+        console.log(sll.kthToLast(1));
+
+        console.log("********** 2.3 Remove Middle Node *****************");
+        var testNode = sll.kthToLast(3);
+        console.log("testNode: ", testNode);
+        console.log("Remove the 5");
+        sll.removeMiddleNode(testNode);
+        sll.printList();
+
+        testNode = sll.kthToLast(1);
+        var testNode = sll.kthToLast(1);
+        console.log("testNode: ", testNode);
+        console.log("Remove the 7 - note this is an invalid call");
+        sll.removeMiddleNode(testNode);
+        sll.printList();
+
+        console.log("************* 2.4 Partition ***********")
+
+        // first test helper method AddNodeToFront
+        sll.clearList();
+        for (var i = 1; i < 5; i++){
+            sll.addNodeToFront(i);
+        }
+        console.log("Current list should be 4,3,2,1");
+        sll.printList();
+
+        sll.clearList();
+        sll.addNodeToEnd(3);
+        sll.addNodeToEnd(5);
+        sll.addNodeToEnd(8);
+        sll.addNodeToEnd(5);
+        sll.addNodeToEnd(10);
+        sll.addNodeToEnd(2);
+        sll.addNodeToEnd(1);
+        console.log("Before partitioning: List should be: 3,5,8,5,10,2,1");
+        sll.printList();
+        sll.partition(5);
+        console.log("After partitioning: List should be: 3,2,1,5,8,5,10");
+        sll.printList();
 
 
 
