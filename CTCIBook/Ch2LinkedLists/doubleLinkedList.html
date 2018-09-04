@@ -1,0 +1,167 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+        "use strict"
+        console.log("Cracking the Code Interview Chapter 2 - Linked Lists");
+        console.log("---------------------------------------------------------------------------------------------------");
+
+        class Node{
+            constructor(value){
+                this.next = null;
+                this.prev = null;
+                this.value = value;
+            }
+        }
+
+        class DLL{
+            constructor(){
+                this.head = null;
+                this.tail = null;
+            }
+        }
+
+        DLL.prototype.addNodeToFront = function(value){
+            var node = new Node(value);
+
+            if (!this.head){
+                // adding first node to an empty list
+                this.head = node;
+                this.tail = node;
+                // node next and prev stay null
+            } else {
+                node.next = this.head;
+                this.head.prev = node;
+                this.head = node;
+            }
+        }
+
+        DLL.prototype.printList = function(){
+            var runner = this.head;
+            console.log("value in head node: ", this.head.value);
+            console.log("value in tail node: ", this.tail.value);
+            console.log("All values:");
+            while (runner){
+                console.log(runner.value);
+                runner = runner.next;
+            }
+        }
+
+        DLL.prototype.printReverseList = function(){
+            var runner = this.tail;
+            console.log("List in Reverse:")
+            console.log("value in head node: ", this.head.value);
+            console.log("value in tail node: ", this.tail.value);
+            console.log("All values:");
+            while (runner){
+                console.log(runner.value);
+                runner = runner.prev;
+            }
+        }
+
+        //  CTCI Chapter 2 Interview Questions: 2.6
+
+        //  Palindrome: Check if a linked list is a palindrome.
+
+        DLL.prototype.isPalindrome = function(){
+            var frontRunner = this.head;
+            var tailRunner = this.tail;
+            var isPalindrome = true;
+
+            while(frontRunner && tailRunner){
+                if (!isValid(frontRunner.value)){
+                    //frontRunner value is not a character
+                    if (frontRunner.next){
+                        frontRunner = frontRunner.next;
+                    } else {
+                        isPalindrome = false;
+                        break;
+                    }
+                }
+                if (!isValid(tailRunner.value)){
+                    //tailRunner value is not a character
+                    if (tailRunner.next){
+                        tailRunner = tailRunner.prev;
+                    } else {
+                        isPalindrome = false;
+                        break;
+                    }
+                }
+                // At this point we have two valid characters
+                if (frontRunner.value != tailRunner.value){
+                    isPalindrome = false;
+                    break;
+                }
+                frontRunner = frontRunner.next;
+                tailRunner = tailRunner.prev;
+            }
+            return isPalindrome;
+        }
+
+        DLL.prototype.clearList = function(){
+            this.head = null;
+            this.tail = null;
+            // all pointers should also be made null to enable memory reclamation- to be done
+        }
+
+        function isValid(value){
+            if ((value == " ") ||
+                (value == ",") ||
+                (value == "?")){
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        // Tests
+
+        var dll = new DLL();
+        
+        dll.addNodeToFront("a");
+        dll.addNodeToFront("b");
+        dll.addNodeToFront("a");
+
+        dll.printList();
+        dll.printReverseList();
+
+        console.log("isPalindrome Result: ", dll.isPalindrome(), " Should be true");
+
+        dll.addNodeToFront("z");
+        dll.printList();
+        console.log("isPalindrome Result: ", dll.isPalindrome(), " Should be false");
+
+        dll.clearList();
+        dll.addNodeToFront("a");
+        dll.addNodeToFront(" ");
+        dll.addNodeToFront("b");
+        dll.addNodeToFront("a");
+        dll.addNodeToFront("?");
+
+        dll.printList();
+        console.log("isPalindrome Result: ", dll.isPalindrome() , " Should be true");
+
+        dll.clearList();
+        dll.addNodeToFront("a");
+        dll.addNodeToFront(" ");
+        dll.addNodeToFront("b");
+        dll.addNodeToFront("b");
+        dll.addNodeToFront("a");
+        dll.addNodeToFront("?");
+
+        dll.printList();
+        console.log("isPalindrome Result: ", dll.isPalindrome() , " Should be true");
+        
+        
+
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>
