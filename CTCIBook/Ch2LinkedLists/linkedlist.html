@@ -290,6 +290,29 @@
             the jth node of the second linked list, then then are intersecting.
         */
 
+        function hasIntersection (sll1, sll2){
+            var runner1 = sll1.head;
+            var runner2 = sll2.head;
+
+            while (runner1){
+                while(runner2){
+                    if (runner1 == runner2){
+                        console.log("found intersection: ", runner1.value, " and ", runner2.value);
+                        return true;
+                    }
+                    runner2 = runner2.next;
+                }
+                runner1 = runner1.next;
+                runner2 = sll2.head;
+            }
+            return false;
+        }
+
+        SLL.prototype.addWholeNodeToFront = function(node){
+            var temp = this.head;
+            this.head = node;
+            node.next = temp;
+        }
 
 
         //  CTCI Chapter 2 Interview Questions: 2.8
@@ -474,7 +497,76 @@
         result.printList();
 
 
+        console.log("************** 2.7 Intersection ***************");
 
+        // case one: has intersection in middle
+
+        var n1 = new Node(42);
+
+        var sll5 = new SLL();
+        var sll6 = new SLL();
+
+        for (var i = 0; i < 4; i++){
+            sll5.addNodeToEnd(i);
+            sll6.addNodeToEnd(i);
+        }
+
+        sll5.addWholeNodeToFront(n1);
+        sll5.addNodeToFront(18);
+        sll6.addWholeNodeToFront(n1);
+
+        for (var i = 99; i < 103; i++){
+            sll5.addNodeToFront(i);
+            sll6.addNodeToFront(i);
+        }
+
+        sll5.printList();
+        sll6.printList();
+       
+        console.log("sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be true ***");
+
+        // case two: does not have intersection in middle
+
+        sll5.clearList();
+        sll6.clearList();
+
+        for (var i = 0; i < 8; i++){
+            sll5.addNodeToEnd(i);
+            sll6.addNodeToEnd(i);
+        }
+
+        console.log("sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be false ***");
+
+        // case three: intersection at first node
+
+        sll5.addWholeNodeToFront(n1);
+        sll6.addWholeNodeToFront(n1);
+
+        console.log("sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be true ***");
+
+        // case four: interesection at first node on sll5 and middle node on sll6
+
+        sll5.clearList();
+        sll6.clearList();
+
+        sll5.addWholeNodeToFront(n1);
+
+        for (var i = 0; i < 8; i++){
+            sll5.addNodeToEnd(i);
+            sll6.addNodeToEnd(i);
+        }
+
+        sll6.addWholeNodeToFront(n1);
+
+        for (var i = 100; i < 108; i++){
+            sll6.addNodeToFront(i);
+        }
+
+        console.log("sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be true ***");
+
+        // note: there are other possible test cases, but I'm moving on to the next exercies now
+
+        
 
     </script>
   </head>
