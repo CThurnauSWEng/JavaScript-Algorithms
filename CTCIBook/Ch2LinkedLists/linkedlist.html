@@ -314,13 +314,128 @@
             node.next = temp;
         }
 
+        // Note: after reading the answers in CTCI, I see that the above function is
+        // really finding a common node, not finding an interesection. So, the following
+        // is a correct version which is based on the solution in the book.
+
+        // First we run through both lists to the end to find the tails. If the tails
+        // are the same, then it has an intersection, so now we need to find it. The
+        // same logic can be used as in the version above to find the node at which
+        // the linked lists intersect.
+
+        function findIntersection(sll1, sll2){
+            var runner1 = sll1.head;
+            var runner2 = sll2.head;
+
+            while (runner1.next){
+                runner1 = runner1.next;
+            }
+            var tail1 = runner1;
+
+            while (runner2.next){
+                runner2 = runner2.next;
+            }
+            var tail2 = runner2;
+
+            if (tail1 != tail2){
+                return null;
+            }
+            // at this point we know that both lists have the same tail
+            // now we look for the intersection - i.e. the first common node
+
+            var runner1 = sll1.head;
+            var runner2 = sll2.head;
+
+            while (runner1){
+                while(runner2){
+                    if (runner1 == runner2){
+                        console.log("found intersection: ", runner1.value, " and ", runner2.value);
+                        return runner1;
+                    }
+                    runner2 = runner2.next;
+                }
+                runner1 = runner1.next;
+                runner2 = sll2.head;
+            }
+            return null;
+
+        }
+
+
+
 
         //  CTCI Chapter 2 Interview Questions: 2.8
 
         /*  Loop detection: Given a circlur linked list, implement an
             algorithm that returns the node at the beginning of the loop.
-
         */
+
+        SLL.prototype.findLoopNode = function(){
+            var runner1 = this.head;
+            var runner2 = this.head.next;
+
+
+            // Move runner2 by twice as fast as runner1. When find a match,
+            // we have detected a loop, but are not positioned at the
+            // beginning of the loop. (we are supposed to return node at the 
+            // beginning of the loop)
+            // Assumption: since the description says to return a node, assuming
+            // that the comparison should be done by reference, not by value.
+            // Assumption: the list provided will have a loop
+
+            var found = false;
+
+            while (runner1 && !found){
+                for (var i = 0; i < 2; i++) {
+                    if (runner1 == runner2){
+                        found = true;
+                    }
+                    runner2 = runner2.next;
+                }
+                runner1 = runner1.next;
+            }
+            if (!found) {
+                return null;
+            }
+            
+            // Move runner1 back to the head, then advance both runners at
+            // the same pace until they meet. The meeting point will be
+            // the start of the loop.
+
+            runner1 = this.head;
+            runner2 = runner2.next;
+            while (runner1 != runner2){
+                runner1 = runner1.next;
+                runner2 = runner2.next;
+            }
+            return runner1;
+
+        }
+
+        SLL.prototype.constructLoop = function(sll){
+            var n1 = new Node(1);
+            var n2 = new Node(2);
+            var n3 = new Node(3);
+            var n10 = new Node(10);
+            var n11 = new Node(11);
+            var n12 = new Node(12);
+            var n13 = new Node(13);
+            var n14 = new Node(14);
+            var n15 = new Node(15);
+            var n16 = new Node(16);
+
+            this.head = n1;
+            n1.next = n2;
+            n2.next = n3;
+            n3.next = n10; // start of loop
+            n10.next = n11;
+            n11.next = n12;
+            n12.next = n13;
+            n13.next = n14;
+            n14.next = n15;
+            n15.next = n16;
+            n16.next = n10; // loop is connected
+        }
 
         var sll = new SLL();
 
@@ -523,7 +638,8 @@
         sll5.printList();
         sll6.printList();
        
-        console.log("sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be true ***");
+        console.log("version1: sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be true ***");
+        console.log("version2: sll5 has interestion with sll6? => ", findIntersection(sll5,sll6), " *** should be 42 ***");
 
         // case two: does not have intersection in middle
 
@@ -535,14 +651,16 @@
             sll6.addNodeToEnd(i);
         }
 
-        console.log("sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be false ***");
+        console.log("version1: sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be false ***");
+        console.log("version2: sll5 has interestion with sll6? => ", findIntersection(sll5,sll6), " *** should be null ***");
 
         // case three: intersection at first node
 
         sll5.addWholeNodeToFront(n1);
         sll6.addWholeNodeToFront(n1);
 
-        console.log("sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be true ***");
+        console.log("version1: sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be true ***");
+        console.log("version2: sll5 has interestion with sll6? => ", findIntersection(sll5,sll6), " *** should be 42 ***");
 
         // case four: interesection at first node on sll5 and middle node on sll6
 
@@ -562,11 +680,23 @@
             sll6.addNodeToFront(i);
         }
 
-        console.log("sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be true ***");
+        console.log("version1: sll5 has interestion with sll6? => ", hasIntersection(sll5,sll6), " *** should be true ***");
+        console.log("version2: sll5 has interestion with sll6? => ", findIntersection(sll5,sll6), " *** should be 42 ***");
 
         // note: there are other possible test cases, but I'm moving on to the next exercies now
 
+        console.log("************** 2.7 Intersection ***************");
+
+        var sll7 = new SLL();
+        sll7.constructLoop();
+    
+        console.log("loop found at node: ", sll7.findLoopNode(), " should be 10");
+
+
+
+
         
+
 
     </script>
   </head>
