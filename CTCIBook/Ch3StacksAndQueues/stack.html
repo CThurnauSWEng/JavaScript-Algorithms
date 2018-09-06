@@ -27,6 +27,7 @@
             constructor(){
                 this.head = null;
                 this.count = 0;
+                this.min = null;
             }
         }
 
@@ -43,9 +44,14 @@
             this.count++;
             if (this.isEmpty()){
                 this.head = node;
+                this.min = node;
             } else {
                 node.next = this.head;
                 this.head = node;
+            }
+            // check to see is this node is the new min for the stack
+            if (node.value < this.min.value){
+                this.min = node;
             }
         }
 
@@ -53,6 +59,30 @@
             if (this.isEmpty()){
                 return null;
             } else {
+                // if we are popping the min, then need to find new min
+                if (this.min == this.head){
+                    if (this.head.next){
+                        // there will still be at least one item left
+                        var runner = this.head.next;
+                        var minValue = runner.value;
+                        while(runner){
+                            if (runner.value < minValue){
+                                this.min = runner;
+                                minValue = runner.value;
+                            }
+                            runner = runner.next;
+                        }
+                    } else {
+                        // only one item left on the stack
+                        this.min = this.head;
+                    }
+                }
+                if (!this.head.next) {
+                    // stack will be empty after this pop
+                    this.min = null;
+                }
+
+                // return the head
                 var result = this.head;
                 this.head = this.head.next;
                 this.count--;
@@ -72,6 +102,11 @@
                     console.log(runner.value);
                     runner = runner.next;
                 }
+            }
+            if (this.min){
+                console.log("Min value on the stack so far: ", this.min.value);
+            } else {
+                console.log("Stack is empty. Min is null");
             }
         }
 
@@ -165,6 +200,52 @@
             console.log("stack: ", i, " is Empty?", aIsEmpty(myArray[i]));
         }
 
+        // CTCI Chapter 3 Interview Questions: 3.2
+
+        /* Add a min function which returns the minimum element in 0(1) time */
+
+        // Additional tests of min functionality
+
+        var stack4 = new Stack();
+
+        stack4.push(199);
+        stack4.push(13);
+        stack4.push(1000);
+
+        stack4.printStack();
+
+        stack4.push(5);
+
+        stack4.printStack();
+
+        stack4.push(14);
+
+        stack4.printStack();
+
+        stack4.pop();
+        stack4.printStack();
+
+        stack4.pop();
+        stack4.printStack();
+        
+        stack4.pop();
+        stack4.printStack();
+
+        stack4.push(1);
+        stack4.printStack();
+
+        stack4.push(3);
+        stack4.printStack();
+
+
+        //  CTCI Chapter 3 Interview Questions: 3.2 - Stack of Plates
+
+        /*  Implment a data struction SetOfStacks that creates a new stack if
+            the current stack gets too high.
+            SetOfStacks should be composed of serveral stacks and should 
+            create a new stack once the previous one exceeds capacity.
+            SetOfStacks.pop() and .push() should behave identically to
+            how the single stack works.
 
 
 
