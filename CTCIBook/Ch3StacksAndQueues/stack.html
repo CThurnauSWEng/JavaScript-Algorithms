@@ -1,0 +1,181 @@
+<!DOCTYPE html> 
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Template</title>
+    <script>
+        "use strict"
+        console.log("Cracking the Code Interview Chapter 3 - Stacks");
+        console.log("---------------------------------------------------------------------------------------------------");
+
+        /*  LIFO linked list features:
+            key operations:
+                pop(): Remove the top item from the stack
+                push(item): Add an item to the top of the stack
+                peek(): Return (but do not remove) the top of the stack
+                isEmpty(): Return true if and only if the stack is empty
+        */
+
+        class Node{
+            constructor(value){
+                this.next = null;
+                this.value = value;
+            }
+        }
+
+        class Stack{
+            constructor(){
+                this.head = null;
+                this.count = 0;
+            }
+        }
+
+        Stack.prototype.isEmpty = function(){
+            if (this.head){
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        Stack.prototype.push = function(value){
+            var node = new Node(value);
+            this.count++;
+            if (this.isEmpty()){
+                this.head = node;
+            } else {
+                node.next = this.head;
+                this.head = node;
+            }
+        }
+
+        Stack.prototype.pop = function(){
+            if (this.isEmpty()){
+                return null;
+            } else {
+                var result = this.head;
+                this.head = this.head.next;
+                this.count--;
+                return result;
+            }
+        }
+
+        Stack.prototype.peak = function(){
+            return this.head;
+        }
+
+        Stack.prototype.printStack = function(){
+            console.log("Num items on stack: ", this.count, " contents: ");
+            if (!this.isEmpty()){
+                var runner = this.head;
+                while (runner){
+                    console.log(runner.value);
+                    runner = runner.next;
+                }
+            }
+        }
+
+        // Test basic stack functionality
+
+        var stack1 = new Stack();
+
+        console.log("*** isEmpty? => ", stack1.isEmpty(), " should be true ***");
+
+        stack1.push(100);
+        console.log("***  Count should be 1, value should be 100: ***")
+        stack1.printStack();
+
+        stack1.push(110);
+        console.log("***  Count should be 2, values should be 110, 100: ***")
+        stack1.printStack();
+
+        console.log("*** Popping the 110: ", stack1.pop());
+        stack1.printStack();
+
+        console.log("*** Popping the 100: ", stack1.pop());
+        stack1.printStack();
+
+        console.log("*** Popping an empty stack: ", stack1.pop());
+        stack1.printStack();
+
+        stack1.push(200);
+        stack1.push(210);
+        stack1.push(220);
+
+        console.log("*** Peaking: ", stack1.peak(), " should get 220 ***");
+        console.log("*** Stack should now be: 220, 210, 200");
+        stack1.printStack();
+
+        // CTCI Chapter 3 Interview Questions: 3.1
+
+        /* Describe how you could use a single array to implement three stacks */
+
+        var myArray = [];
+        var stack1 = [];
+        var stack2 = [];
+        var stack3 = [];
+
+        stack1.push(100);
+        stack1.push(110);
+        stack1.push(120);
+        myArray.push(stack1);
+
+        stack2.push(200);
+        stack2.push(210);
+        stack2.push(220);
+        myArray.push(stack2);
+
+        stack3.push(300);
+        stack3.push(310);
+        stack3.push(320);
+        myArray.push(stack3);
+
+        console.log("*** Initial arry with 3 stacks: ", myArray);
+
+        console.log("*** Demo pop: values should be 120, 220, 320 ***");
+
+        for (var i = 0; i < myArray.length; i++){
+            console.log(myArray[i].pop());
+        }
+
+        console.log("*** Demo peak: values should be 110, 210, 220 ***");
+
+        for (var i = 0; i< myArray.length; i++){
+            console.log(myArray[i][myArray[i].length-1]);
+        }
+
+        function aIsEmpty(arr){
+            return (arr.length < 1);
+        }
+
+        console.log("*** Demo aIsEmpty: values should be false, false, false");
+
+        for (var i = 0; i< myArray.length; i++){
+            console.log("stack: ", i, " is Empty?", aIsEmpty(myArray[i]));
+        }
+
+        // empty first stack in array
+
+        myArray[0].pop();
+        myArray[0].pop();
+
+        console.log("*** Demo aIsEmpty: values should be true, false, false");
+
+        for (var i = 0; i< myArray.length; i++){
+            console.log("stack: ", i, " is Empty?", aIsEmpty(myArray[i]));
+        }
+
+
+
+
+
+
+
+
+
+    </script>
+  </head>
+  <body>
+    <p>See Console for output</p>
+ </body>
+</html>
