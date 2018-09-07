@@ -238,7 +238,7 @@
         stack4.printStack();
 
 
-        //  CTCI Chapter 3 Interview Questions: 3.2 - Stack of Plates
+        //  CTCI Chapter 3 Interview Questions: 3.3 - Stack of Plates
 
         /*  Implment a data struction SetOfStacks that creates a new stack if
             the current stack gets too high.
@@ -247,8 +247,176 @@
             SetOfStacks.pop() and .push() should behave identically to
             how the single stack works.
 
+            follow up:
+            Implement a function popAt(int index) which performs a pop
+            operation on a specific sub-stack
+        */
+
+        class SetOfStacks{
+            constructor(){
+                this.stacks = [];
+                this.currentStack = new Stack();
+                this.currentStackIndex = 0;
+                this.stacks.push(this.currentStack);
+                this.limit = 5;
+            }
+        }
+
+        SetOfStacks.prototype.pop = function(){
+            var result = this.currentStack.pop();
+
+            if (this.currentStack.count < 1){
+                this.currentStackIndex--;
+                this.currentStack = this.stacks[this.currentStackIndex];
+                this.stacks.pop(); // reclaim memory for the now empty stack
+            }
+
+            return result;
+        }
+
+        SetOfStacks.prototype.push = function(value){
+            if (this.currentStack.count < 5){
+                this.currentStack.push(value);
+                console.log("current Stack: ");
+                this.currentStack.printStack();
+            } else {
+                var newStack = new Stack();
+                this.stacks.push(newStack);
+                this.currentStack = newStack;
+                this.currentStack.push(value);
+                this.currentStackIndex++;
+            }
+        }
+
+        SetOfStacks.prototype.printAllStacks = function(){
+            for (var i = 0; i < this.stacks.length; i++){
+                console.log("******** Here are all of the stacks in the Set of Stacks ***********")
+                this.stacks[i].printStack();
+            }
+        }
+
+        SetOfStacks.prototype.popAt = function(index){
+            var tempStack = this.currentStack;
+            this.currentStack = this.stacks[index];
+
+            var result = SoS1.pop();
+            this.currentStack = tempStack;
+            return result;
+        }
+
+        var SoS1 = new SetOfStacks();
+        SoS1.push(1);
+
+        SoS1.printAllStacks();
+
+        console.log("Test adding enough values to cause new stacks to be created");
+        SoS1.push(2);
+        SoS1.push(3);
+        SoS1.push(4);
+        SoS1.push(5);
+        SoS1.push(11);
+        SoS1.push(12);
+        SoS1.push(13);
+        SoS1.push(14);
+        SoS1.push(15);
+        SoS1.push(21);
+        SoS1.push(22);
+        SoS1.push(23);
+        SoS1.push(24);
+        SoS1.push(25);
+        SoS1.push(31);
+
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        console.log("&&&&&&&& Popping &&&&&&&&&", SoS1.pop());
+        SoS1.printAllStacks();
+
+        // ok, now try adding some more back on
+
+        console.log(".......... Pushing ..............");
+        SoS1.push(1004);
+
+        console.log(".......... Pushing ..............");
+        SoS1.push(1005);
+
+        console.log(".......... Pushing ..............");
+        SoS1.push(1011);
+
+        console.log(".......... Pushing ..............");
+        SoS1.push(1012);
+
+        console.log(".......... Pushing ..............");
+        SoS1.push(1013);
+
+        // test the popAt method
+        console.log("///////////  Popping At ////////////", SoS1.popAt(0), "should have popped 1005");
+        SoS1.printAllStacks();
 
 
+
+        //  CTCI Chapter 3 Interview Questions: 3.4 - Queue vie Stacks
+
+        /*  Implement a MyQueue class which implements a queue
+            using two stacks
+        */
+
+
+
+
+
+        //  CTCI Chapter 3 Interview Questions: 3.5 - Sort Stack
+
+        /*  Write a program to sort a stack such that the smallest items
+            are on top. You can use an addtional temporary stack, but
+            you my not copy the elements into any other data structure
+            (such as an array). The stack supports the following operations:
+            push, pop, peek, and isEmpty.
+        */
+
+
+
+        //  CTCI Chapter 3 Interview Questions: 3.5 - Animal Shelter
+
+        /*  See queue.html
+
+        */
+            
 
 
 
